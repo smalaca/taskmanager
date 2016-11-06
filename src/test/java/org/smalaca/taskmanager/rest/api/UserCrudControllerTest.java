@@ -1,7 +1,7 @@
-package org.smalaca.taskmanager.controller;
+package org.smalaca.taskmanager.rest.api;
 
 import org.junit.Test;
-import org.smalaca.domain.User;
+import org.smalaca.taskmanager.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 

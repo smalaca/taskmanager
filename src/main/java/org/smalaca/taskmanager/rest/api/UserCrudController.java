@@ -1,6 +1,6 @@
-package org.smalaca.taskmanager.controller;
+package org.smalaca.taskmanager.rest.api;
 
-import org.smalaca.domain.User;
+import org.smalaca.taskmanager.domain.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
