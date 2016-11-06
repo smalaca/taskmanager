@@ -5,7 +5,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
@@ -20,7 +24,7 @@ public class UserCrudController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = new ArrayList<>();
         //get all users
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -57,7 +61,7 @@ public class UserCrudController {
     public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
         User currentUser = null;
 
-        if (currentUser==null) {
+        if (currentUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
