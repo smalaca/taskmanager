@@ -22,7 +22,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfRetrievedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.getUser(13);
+        ResponseEntity<User> response = controller.getUser("13");
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
@@ -41,7 +41,7 @@ public class UserCrudControllerTest {
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
         User user = null;
 
-        ResponseEntity<User> response = controller.updateUser(13, user);
+        ResponseEntity<User> response = controller.updateUser("13", user);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
@@ -50,7 +50,7 @@ public class UserCrudControllerTest {
     public void shouldReturnNotFoundIfDeletedUserDoesNotExist() {
         User user = null;
 
-        ResponseEntity<User> response = controller.deleteUser(13);
+        ResponseEntity<User> response = controller.deleteUser("13");
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
