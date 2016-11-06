@@ -226,7 +226,7 @@
                   <configLocation>${project.config.directory}/static-analysis/checkstyle.xml</configLocation>
                   <violationSeverity>warning</violationSeverity>
                   <excludes>
-                    com/smalaca/gtdtool/Application.*
+                    org/smalaca/taskmanager/Application.*
                   </excludes>
                 </configuration>
                 <goals>

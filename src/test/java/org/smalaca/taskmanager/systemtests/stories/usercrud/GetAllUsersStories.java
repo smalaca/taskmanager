@@ -23,12 +23,12 @@ public class GetAllUsersStories extends JBehaveConfiguration {
     private ResponseEntity<List> allUsersResponse;
 
     @When("retrieves all users")
-    public void createsProject() {
+    public void retrieveAllUsers() {
         allUsersResponse = RestClient.getAllUsers();
     }
 
     @Then("NO_CONTENT http status returns")
-    public void thenTheProjectWasCreated() {
+    public void thenNoContentWasReturn() {
         assertThat(allUsersResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 }
