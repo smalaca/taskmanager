@@ -1,0 +1,21 @@
+show allResults
+
+### sets definition
+{base-package} = org.smalaca.taskmanager
+[project] = ${base-package}.*
+[domain] = ${base-package}.domain.*
+[rest-api] = ${base-package}.rest.api.*
+[packages-without-cycles] = [project]
+
+### layers definition
+layer domain = [domain]
+layer rest = [rest-api]
+
+### check sets definition
+check sets [project] [domain] [rest-api]
+
+### check layers
+check layeringOf domain rest
+
+### check cycles
+check absenceOfPackageCycles > 1 in [packages-without-cycles]

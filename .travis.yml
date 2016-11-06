@@ -4,4 +4,5 @@ jdk:
   - oraclejdk8
 
 script:
-  - mvn clean verify
+  - mvn -Pstatic-analysis clean verify
+  - mvn -Psystem clean verify
