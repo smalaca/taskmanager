@@ -1,4 +1,4 @@
-package org.smalaca.controller;
+package org.smalaca.taskmanager.controller;
 
 import org.smalaca.domain.User;
 import org.springframework.http.HttpHeaders;

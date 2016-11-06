@@ -1,4 +1,4 @@
-package org.smalaca.domain;
+package org.smalaca.taskmanager.domain;
 
 import java.util.Map;
 

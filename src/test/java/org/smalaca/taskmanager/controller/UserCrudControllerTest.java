@@ -1,4 +1,4 @@
-package org.smalaca.controller;
+package org.smalaca.taskmanager.controller;
 
 import org.junit.Test;
 import org.smalaca.domain.User;
