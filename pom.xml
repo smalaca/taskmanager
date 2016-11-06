@@ -286,7 +286,7 @@
             <version>${jacoco.version}</version>
             <configuration>
               <excludes>
-                <exclude>com/smalaca/gtdtool/Application.*</exclude>
+                <exclude>org/smalaca/taskmanager/Application.*</exclude>
               </excludes>
             </configuration>
 
