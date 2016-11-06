@@ -1,0 +1,1 @@
+Playground for Refactoring, Redesign and Legacy Code workshops/trainings.
