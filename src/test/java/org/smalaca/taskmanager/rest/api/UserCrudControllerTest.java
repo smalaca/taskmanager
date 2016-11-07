@@ -8,9 +8,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 public class UserCrudControllerTest {
+    private static final String NOT_EXISITNIG_USER = "13";
+    private static final String EXISITNIG_USER = "69";
+
     private UserCrudController controller = new UserCrudController();
 
     @Test
@@ -22,9 +30,17 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfRetrievedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.getUser("13");
+        ResponseEntity<User> response = controller.getUser(NOT_EXISITNIG_USER);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
+    }
+
+    @Test
+    public void shouldReturnExistingUser() {
+        ResponseEntity<User> response = controller.getUser(EXISITNIG_USER);
+
+        assertThat(response.getStatusCode()).isEqualTo(OK);
+        assertThat(response.getBody().getId()).isEqualTo(EXISITNIG_USER);
     }
 
     @Test
@@ -38,6 +54,17 @@ public class UserCrudControllerTest {
     }
 
     @Test
+    public void shouldCreateUser() {
+        User user = new User(NOT_EXISITNIG_USER);
+        UriComponentsBuilder uriComponentsBuilder = fromUriString("/");
+
+        ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
+
+        assertThat(response.getStatusCode()).isEqualTo(CREATED);
+        assertThat(response.getHeaders().getLocation().getPath()).isEqualTo("/user/13");
+    }
+
+    @Test
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
         User user = null;
 
@@ -47,11 +74,28 @@ public class UserCrudControllerTest {
     }
 
     @Test
+    public void shouldUpdateAboutSuccessIfUpdatingExistingUser() {
+        User user = new User(EXISITNIG_USER);
+
+        ResponseEntity<User> response = controller.updateUser(EXISITNIG_USER, user);
+
+        assertThat(response.getStatusCode()).isEqualTo(OK);
+        assertThat(response.getBody().getId()).isEqualTo(EXISITNIG_USER);
+    }
+
+    @Test
     public void shouldReturnNotFoundIfDeletedUserDoesNotExist() {
         User user = null;
 
         ResponseEntity<User> response = controller.deleteUser("13");
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
+    }
+
+    @Test
+    public void shouldDeleteExistingUser() {
+        ResponseEntity<User> response = controller.deleteUser(EXISITNIG_USER);
+
+        assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 }
