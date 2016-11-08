@@ -1,6 +1,6 @@
 Narrative:
-Crud User operations
+Retrieving all users.
 
-Scenario: Retrive all users
+Scenario: Retrieve all users
 When retrieves all users
 Then NO_CONTENT http status returns

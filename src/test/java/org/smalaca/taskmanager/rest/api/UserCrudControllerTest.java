@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
@@ -25,7 +24,8 @@ public class UserCrudControllerTest {
     public void shouldReturnNoContentWhenNoUsersFound() {
         ResponseEntity<List<User>> response = controller.getAllUsers();
 
-        assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
+        assertThat(response.getStatusCode()).isEqualTo(OK);
+        assertThat(response.getBody().isEmpty()).isTrue();
     }
 
     @Test

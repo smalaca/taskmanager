@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,8 @@ public class UserCrudController {
 
     @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        List<User> users = new ArrayList<>();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,5 +1,6 @@
 package org.smalaca.taskmanager.systemtests.rest;
 
+import org.smalaca.taskmanager.systemtests.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,7 +13,7 @@ public class RestClient {
         return "http://localhost:8080";
     }
 
-    public static ResponseEntity<List> getAllUsers() {
-        return restTemplate.getForEntity(hostName() + "/user", List.class);
+    public static List<UserDto> getAllUsers() {
+        return restTemplate.getForObject(hostName() + "/user", List.class);
     }
 }
