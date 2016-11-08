@@ -1,13 +1,14 @@
 package org.smalaca.taskmanager.systemtests.dto;
 
 public class UserDto {
-    private final String name;
+    private String name;
+    private String id;
 
-    public UserDto(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 }

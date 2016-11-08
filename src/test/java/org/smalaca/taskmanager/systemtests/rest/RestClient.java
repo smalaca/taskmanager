@@ -17,7 +17,15 @@ public class RestClient {
         return restTemplate.getForObject(hostName() + "/user", List.class);
     }
 
-    public static URI createAUser(UserDto user) {
+    public static URI createUser(UserDto user) {
         return restTemplate.postForLocation(hostName() + "/user/", user, UserDto.class);
+    }
+
+    public static void updateUser(String userId, UserDto user) {
+        restTemplate.put(hostName() + "/user/" + userId, user);
+    }
+
+    public static UserDto getUser(String userId) {
+        return restTemplate.getForObject(hostName() + "/user/" + userId, UserDto.class);
     }
 }

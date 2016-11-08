@@ -12,31 +12,29 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.net.URI;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.smalaca.taskmanager.systemtests.rest.RestClient.hostName;
+import static org.assertj.core.api.StrictAssertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
-public class AddUserStories extends JBehaveConfiguration {
+public class EditUserStories extends JBehaveConfiguration {
+    private static final String USER_ID = "69";
     private UserDto user;
-    private URI userUri;
 
-    @Given("a new user data")
-    public void givenANewUser() {
+    @Given("a user data")
+    public void givenUserData() {
         user = new UserDto();
         user.setName("Sebastian");
     }
 
     @When("sends a request")
-    public void whenCreatesNewUser() {
-        userUri = RestClient.createUser(user);
+    public void whenUpdatesUser() {
+        RestClient.updateUser(USER_ID, user);
     }
 
-    @Then("user is created")
-    public void thenUserIsCreated() {
-        assertThat(userUri.toASCIIString()).isEqualTo(hostName() + "/user/13");
+    @Then("user is updated")
+    public void thenUserIsUpdated() {
+        assertThat(RestClient.getUser(USER_ID).getId()).isEqualTo(USER_ID);
     }
+
 }
