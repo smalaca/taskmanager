@@ -19,8 +19,8 @@ import java.util.List;
 public class UserCrudController {
     private static final String USER_PATH = "/user";
     private static final String SPECIFIC_USER_PATH = USER_PATH + "/{id}";
-    private static final String NOT_FOUND_USER = "13";
-    private static final String FOUND_USER = "69";
+    private static final String USER_ID_1 = "13";
+    private static final String USER_ID_2 = "69";
 
     @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
@@ -31,10 +31,10 @@ public class UserCrudController {
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") String id) {
         User user = new User();
-        user.setId(FOUND_USER);
+        user.setId(USER_ID_2);
 
         //get single user
-        if (NOT_FOUND_USER.equals(id)) {
+        if (USER_ID_1.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -53,16 +53,16 @@ public class UserCrudController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(NOT_FOUND_USER).toUri());
+        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(USER_ID_1).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
         User currentUser = new User();
-        currentUser.setId(FOUND_USER);
+        currentUser.setId(USER_ID_2);
 
-        if (NOT_FOUND_USER.equals(id)) {
+        if (USER_ID_1.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -74,7 +74,7 @@ public class UserCrudController {
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@PathVariable("id") String id) {
-        if (NOT_FOUND_USER.equals(id)) {
+        if (USER_ID_1.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

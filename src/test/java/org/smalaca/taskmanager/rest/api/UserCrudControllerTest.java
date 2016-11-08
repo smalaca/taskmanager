@@ -15,8 +15,8 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 public class UserCrudControllerTest {
-    private static final String NOT_EXISITNIG_USER = "13";
-    private static final String EXISITNIG_USER = "69";
+    private static final String USER_ID_2 = "13";
+    private static final String USER_ID_1 = "69";
 
     private UserCrudController controller = new UserCrudController();
 
@@ -30,17 +30,17 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfRetrievedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.getUser(NOT_EXISITNIG_USER);
+        ResponseEntity<User> response = controller.getUser(USER_ID_2);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldReturnExistingUser() {
-        ResponseEntity<User> response = controller.getUser(EXISITNIG_USER);
+        ResponseEntity<User> response = controller.getUser(USER_ID_1);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody().getId()).isEqualTo(EXISITNIG_USER);
+        assertThat(response.getBody().getId()).isEqualTo(USER_ID_1);
     }
 
     @Test
@@ -68,31 +68,29 @@ public class UserCrudControllerTest {
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
         User user = null;
 
-        ResponseEntity<User> response = controller.updateUser("13", user);
+        ResponseEntity<User> response = controller.updateUser(USER_ID_2, user);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldUpdateAboutSuccessIfUpdatingExistingUser() {
-        ResponseEntity<User> response = controller.updateUser(EXISITNIG_USER, new User());
+        ResponseEntity<User> response = controller.updateUser(USER_ID_1, new User());
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody().getId()).isEqualTo(EXISITNIG_USER);
+        assertThat(response.getBody().getId()).isEqualTo(USER_ID_1);
     }
 
     @Test
     public void shouldReturnNotFoundIfDeletedUserDoesNotExist() {
-        User user = null;
-
-        ResponseEntity<User> response = controller.deleteUser("13");
+        ResponseEntity<User> response = controller.deleteUser(USER_ID_2);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldDeleteExistingUser() {
-        ResponseEntity<User> response = controller.deleteUser(EXISITNIG_USER);
+        ResponseEntity<User> response = controller.deleteUser(USER_ID_1);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }

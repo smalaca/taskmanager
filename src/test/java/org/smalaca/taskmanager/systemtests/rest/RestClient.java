@@ -28,4 +28,8 @@ public class RestClient {
     public static UserDto getUser(String userId) {
         return restTemplate.getForObject(hostName() + "/user/" + userId, UserDto.class);
     }
+
+    public static void deleteUser(String userId) {
+        restTemplate.delete(hostName() + "/user/" + userId);
+    }
 }
