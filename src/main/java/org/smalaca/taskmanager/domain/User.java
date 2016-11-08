@@ -1,9 +1,9 @@
 package org.smalaca.taskmanager.domain;
 
 public class User {
-    private final String id;
+    private String id;
 
-    public User(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

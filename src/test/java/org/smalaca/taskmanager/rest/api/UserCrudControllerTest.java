@@ -55,7 +55,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldCreateUser() {
-        User user = new User(NOT_EXISITNIG_USER);
+        User user = new User();
         UriComponentsBuilder uriComponentsBuilder = fromUriString("/");
 
         ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
@@ -75,9 +75,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldUpdateAboutSuccessIfUpdatingExistingUser() {
-        User user = new User(EXISITNIG_USER);
-
-        ResponseEntity<User> response = controller.updateUser(EXISITNIG_USER, user);
+        ResponseEntity<User> response = controller.updateUser(EXISITNIG_USER, new User());
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
         assertThat(response.getBody().getId()).isEqualTo(EXISITNIG_USER);

@@ -30,7 +30,9 @@ public class UserCrudController {
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") String id) {
-        User user = new User(FOUND_USER);
+        User user = new User();
+        user.setId(FOUND_USER);
+
         //get single user
         if (NOT_FOUND_USER.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -51,13 +53,14 @@ public class UserCrudController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(user.getId()).toUri());
+        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(NOT_FOUND_USER).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
-        User currentUser = new User(FOUND_USER);
+        User currentUser = new User();
+        currentUser.setId(FOUND_USER);
 
         if (NOT_FOUND_USER.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
