@@ -1,6 +1,8 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,8 @@ public class UserCrudController {
     private static final String SPECIFIC_USER_PATH = USER_PATH + "/{id}";
     private static final String USER_ID_1 = "13";
     private static final String USER_ID_2 = "69";
+
+    @Autowired private UserRepository userRepository;
 
     @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
