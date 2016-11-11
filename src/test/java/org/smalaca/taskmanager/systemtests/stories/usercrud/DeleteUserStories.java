@@ -12,6 +12,7 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -31,6 +32,6 @@ public class DeleteUserStories extends JBehaveConfiguration {
 
     @Then("user is removed")
     public void thenUserIsRemoved() {
-        assertThat(RestClient.getUser(userId).getId()).isEqualTo(userId);
+        assertThat(RestClient.getNonExistingUser(userId)).isEqualTo(NOT_FOUND);
     }
 }

@@ -4,5 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="userRepository" class="org.smalaca.taskmanager.repository.InMemoryUserRepository"/>
+    <import resource="in-memory-repositories.xml"/>
+
+    <bean id="userCrudController" class="org.smalaca.taskmanager.rest.api.UserCrudController">
+        <constructor-arg ref="userRepository"/>
+    </bean>
 </beans>

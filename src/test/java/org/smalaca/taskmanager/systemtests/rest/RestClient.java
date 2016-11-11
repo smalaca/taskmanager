@@ -1,10 +1,14 @@
 package org.smalaca.taskmanager.systemtests.rest;
 
 import org.smalaca.taskmanager.systemtests.dto.UserDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
 
 public class RestClient {
     private static final RestTemplate restTemplate = new RestTemplate();
@@ -27,6 +31,16 @@ public class RestClient {
 
     public static UserDto getUser(String userId) {
         return restTemplate.getForObject(hostName() + "/user/" + userId, UserDto.class);
+    }
+
+    public static HttpStatus getNonExistingUser(String userId) {
+        try {
+            restTemplate.getForEntity(hostName() + "/user/" + userId, UserDto.class);
+        } catch (HttpStatusCodeException exception) {
+            return exception.getStatusCode();
+        }
+
+        return OK;
     }
 
     public static void deleteUser(String userId) {

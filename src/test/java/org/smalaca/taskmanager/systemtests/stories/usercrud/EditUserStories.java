@@ -18,7 +18,7 @@ import static org.assertj.core.api.StrictAssertions.assertThat;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class EditUserStories extends JBehaveConfiguration {
-    private static final String USER_ID = "69";
+    private static final String USER_ID = "1";
     private UserDto user;
 
     @Given("a user data")

@@ -1,8 +1,8 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +24,11 @@ public class UserCrudController {
     private static final String USER_ID_1 = "13";
     private static final String USER_ID_2 = "69";
 
-    @Autowired private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserCrudController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
@@ -34,14 +38,12 @@ public class UserCrudController {
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") String id) {
-        User user = new User();
-        user.setId(USER_ID_2);
-
-        //get single user
-        if (USER_ID_1.equals(id)) {
+        try {
+            User user = userRepository.findById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)

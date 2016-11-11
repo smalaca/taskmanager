@@ -2,6 +2,7 @@ package org.smalaca.taskmanager.rest.api;
 
 import org.junit.Test;
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.repository.UserRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,8 +18,10 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 public class UserCrudControllerTest {
     private static final String USER_ID_2 = "13";
     private static final String USER_ID_1 = "69";
+    private static final String EXISTING_USER_ID = "1";
+    private static final String NOT_EXISTING_USER_ID = "101";
 
-    private UserCrudController controller = new UserCrudController();
+    private UserCrudController controller = new UserCrudController(UserRepositories.IN_MEMORY);
 
     @Test
     public void shouldReturnNoContentWhenNoUsersFound() {
@@ -30,17 +33,24 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfRetrievedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.getUser(USER_ID_2);
+        ResponseEntity<User> response = controller.getUser(NOT_EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldReturnExistingUser() {
-        ResponseEntity<User> response = controller.getUser(USER_ID_1);
+        ResponseEntity<User> response = controller.getUser(EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody().getId()).isEqualTo(USER_ID_1);
+        assertUser(response.getBody());
+    }
+
+    private void assertUser(User user) {
+        assertThat(user.getId()).isEqualTo(EXISTING_USER_ID);
+        assertThat(user.getFirstName()).isEqualTo("Sebastian");
+        assertThat(user.getLastName()).isEqualTo("Malaca");
+        assertThat(user.getLogin()).isEqualTo("smalaca");
     }
 
     @Test
