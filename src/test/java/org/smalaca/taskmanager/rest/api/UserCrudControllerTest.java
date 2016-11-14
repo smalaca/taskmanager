@@ -24,11 +24,11 @@ public class UserCrudControllerTest {
     private UserCrudController controller = new UserCrudController(UserRepositories.IN_MEMORY);
 
     @Test
-    public void shouldReturnNoContentWhenNoUsersFound() {
+    public void shouldReturnAllUsers() {
         ResponseEntity<List<User>> response = controller.getAllUsers();
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody().isEmpty()).isTrue();
+        assertThat(response.getBody().size()).isEqualTo(5);
     }
 
     @Test

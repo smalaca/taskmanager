@@ -26,8 +26,8 @@ public class GetAllUsersStories extends JBehaveConfiguration {
         allUsersResponse = RestClient.getAllUsers();
     }
 
-    @Then("NO_CONTENT http status returns")
-    public void thenNoContentWasReturn() {
-        assertThat(allUsersResponse.isEmpty()).isTrue();
+    @Then("returns all stored users")
+    public void thenReturnAllUsers() {
+        assertThat(allUsersResponse.size()).isEqualTo(5);
     }
 }

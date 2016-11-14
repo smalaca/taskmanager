@@ -3,7 +3,9 @@ package org.smalaca.taskmanager.repository;
 import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class InMemoryUserRepository implements UserRepository {
@@ -26,7 +28,6 @@ class InMemoryUserRepository implements UserRepository {
         user.setLastName(lastName);
         user.setLogin(login);
         user.setPassword(DUMMY_PASSWORD);
-
         return user;
     }
 
@@ -37,5 +38,10 @@ class InMemoryUserRepository implements UserRepository {
         } else {
             throw new UserNotFoundException("User with id: " + id + " does not exist.");
         }
+    }
+
+    @Override
+    public List<User> findAll() {
+        return new ArrayList<>(users.values());
     }
 }
