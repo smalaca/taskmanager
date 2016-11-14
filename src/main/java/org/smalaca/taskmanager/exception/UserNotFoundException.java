@@ -1,6 +1,6 @@
 package org.smalaca.taskmanager.exception;
 
-public class UserNotFoundException extends Exception {
+public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {
         super(message);
     }
