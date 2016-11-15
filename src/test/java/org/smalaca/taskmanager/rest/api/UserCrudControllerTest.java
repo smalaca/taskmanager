@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.smalaca.taskmanager.repository.UserRepositories.IN_MEMORY_USER_REPOSITORY;
+import static org.smalaca.taskmanager.repository.UserRepositories.aInMemoryUserRepository;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -30,7 +30,7 @@ public class UserCrudControllerTest {
     private static final User DUMMY_USER = new User();
     private static final UserDto NO_USER_DATA = null;
 
-    private UserCrudController controller = new UserCrudController(IN_MEMORY_USER_REPOSITORY);
+    private UserCrudController controller = new UserCrudController(aInMemoryUserRepository());
 
     @Test
     public void shouldReturnAllUsers() {
