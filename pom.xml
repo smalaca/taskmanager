@@ -368,7 +368,7 @@
             <artifactId>javancss-maven-plugin</artifactId>
             <version>${javancss.version}</version>
             <configuration>
-              <ccnLimit>5</ccnLimit>
+              <ccnLimit>10</ccnLimit>
               <ncssLimit>20</ncssLimit>
               <failOnViolation>true</failOnViolation>
             </configuration>
