@@ -1,7 +1,7 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.junit.Test;
-import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.dto.UserDto;
 import org.smalaca.taskmanager.repository.UserRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,7 +25,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnAllUsers() {
-        ResponseEntity<List<User>> response = controller.getAllUsers();
+        ResponseEntity<List<UserDto>> response = controller.getAllUsers();
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
         assertThat(response.getBody().size()).isEqualTo(5);
@@ -33,20 +33,20 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfRetrievedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.getUser(NOT_EXISTING_USER_ID);
+        ResponseEntity<UserDto> response = controller.getUser(NOT_EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldReturnExistingUser() {
-        ResponseEntity<User> response = controller.getUser(EXISTING_USER_ID);
+        ResponseEntity<UserDto> response = controller.getUser(EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
         assertUser(response.getBody());
     }
 
-    private void assertUser(User user) {
+    private void assertUser(UserDto user) {
         assertThat(user.getId()).isEqualTo(EXISTING_USER_ID);
         assertThat(user.getFirstName()).isEqualTo("Sebastian");
         assertThat(user.getLastName()).isEqualTo("Malaca");
@@ -55,7 +55,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldInformAboutConflictWhenCreatedUserAlreadyExists() {
-        User user = null;
+        UserDto user = null;
         UriComponentsBuilder uriComponentsBuilder = null;
 
         ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
@@ -65,7 +65,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldCreateUser() {
-        User user = new User();
+        UserDto user = new UserDto();
         UriComponentsBuilder uriComponentsBuilder = fromUriString("/");
 
         ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
@@ -76,16 +76,16 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
-        User user = null;
+        UserDto user = null;
 
-        ResponseEntity<User> response = controller.updateUser(USER_ID_2, user);
+        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_2, user);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldUpdateAboutSuccessIfUpdatingExistingUser() {
-        ResponseEntity<User> response = controller.updateUser(USER_ID_1, new User());
+        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_1, new UserDto());
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
         assertThat(response.getBody().getId()).isEqualTo(USER_ID_1);
@@ -93,14 +93,14 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfDeletedUserDoesNotExist() {
-        ResponseEntity<User> response = controller.deleteUser(USER_ID_2);
+        ResponseEntity<Void> response = controller.deleteUser(USER_ID_2);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldDeleteExistingUser() {
-        ResponseEntity<User> response = controller.deleteUser(USER_ID_1);
+        ResponseEntity<Void> response = controller.deleteUser(USER_ID_1);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }

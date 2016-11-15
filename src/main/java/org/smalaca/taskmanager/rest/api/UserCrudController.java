@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.dto.UserDto;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,23 +32,42 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> usersDtos = new ArrayList<>();
+
+        for (User user : userRepository.findAll()) {
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(user.getFirstName());
+            userDto.setLastName(user.getLastName());
+            userDto.setLogin(user.getLogin());
+            userDto.setPassword(user.getPassword());
+            userDto.setId(user.getId());
+
+            usersDtos.add(userDto);
+        }
+
+        return new ResponseEntity<>(usersDtos, HttpStatus.OK);
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") String id) {
         try {
             User user = userRepository.findById(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(user.getFirstName());
+            userDto.setLastName(user.getLastName());
+            userDto.setLogin(user.getLogin());
+            userDto.setPassword(user.getPassword());
+            userDto.setId(user.getId());
+
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
         } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<Void> createUser(@RequestBody UserDto user, UriComponentsBuilder uriComponentsBuilder) {
         /**
          * 1. Data validation
          * 2. Checking whether someone like this exist
@@ -63,8 +84,8 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
-        User currentUser = new User();
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserDto user) {
+        UserDto currentUser = new UserDto();
         currentUser.setId(USER_ID_2);
 
         if (USER_ID_1.equals(id)) {
@@ -78,7 +99,7 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") String id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
         if (USER_ID_1.equals(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
