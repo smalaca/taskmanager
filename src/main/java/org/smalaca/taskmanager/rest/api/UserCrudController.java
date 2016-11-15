@@ -23,8 +23,6 @@ import java.util.UUID;
 public class UserCrudController {
     private static final String USER_PATH = "/user";
     private static final String SPECIFIC_USER_PATH = USER_PATH + "/{id}";
-    private static final String USER_ID_1 = "13";
-    private static final String USER_ID_2 = "69";
 
     private final UserRepository userRepository;
 
@@ -93,18 +91,33 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserDto user) {
-        UserDto currentUser = new UserDto();
-        currentUser.setId(USER_ID_2);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserDto userDto) {
+        // data validation
+        User user;
 
-        if (USER_ID_1.equals(id)) {
+        try {
+            user = userRepository.findById(id);
+        } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // update with setters :)
-        // store user
+        if (userDto.getLogin() != null) {
+            user.setLogin(userDto.getLogin());
+        }
 
-        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+        if (userDto.getPassword() != null) {
+            user.setPassword(userDto.getPassword());
+        }
+
+        userRepository.update(user);
+
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setLogin(user.getLogin());
+        userDto.setPassword(user.getPassword());
+        userDto.setId(user.getId());
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)

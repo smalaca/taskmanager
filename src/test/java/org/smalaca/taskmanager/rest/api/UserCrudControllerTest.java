@@ -17,8 +17,6 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 public class UserCrudControllerTest {
-    private static final String USER_ID_2 = "13";
-    private static final String USER_ID_1 = "69";
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
     private static final UserDto NO_USER_DATA = null;
@@ -96,17 +94,41 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
-        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_2, NO_USER_DATA);
+        ResponseEntity<UserDto> response = controller.updateUser(NOT_EXISTING_USER_ID, NO_USER_DATA);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldUpdateAboutSuccessIfUpdatingExistingUser() {
-        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_1, new UserDto());
+        String newLogin = "sebastian86";
+        String newPassword = "qwerty";
+        UserDto user = givenUserWithLoginAndPassword(newLogin, newPassword);
+
+        ResponseEntity<UserDto> response = controller.updateUser(EXISTING_USER_ID, user);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody().getId()).isEqualTo(USER_ID_1);
+        assertThatUserWasUpdated(newLogin, newPassword, response.getBody());
+    }
+
+    private void assertThatUserWasUpdated(String newLogin, String newPassword, UserDto userDto) {
+        assertThat(userDto.getId()).isEqualTo(EXISTING_USER_ID);
+        assertThat(userDto.getFirstName()).isEqualTo(SEBASTIAN);
+        assertThat(userDto.getLastName()).isEqualTo(MALACA);
+        assertThat(userDto.getLogin()).isEqualTo(newLogin);
+        assertThat(userDto.getPassword()).isEqualTo(newPassword);
+
+        UserDto user = controller.getUser(EXISTING_USER_ID).getBody();
+
+        assertThat(user.getLogin()).isEqualTo(newLogin);
+        assertThat(user.getPassword()).isEqualTo(newPassword);
+    }
+
+    private UserDto givenUserWithLoginAndPassword(String login, String password) {
+        UserDto userDto = new UserDto();
+        userDto.setLogin(login);
+        userDto.setPassword(password);
+        return userDto;
     }
 
     @Test
