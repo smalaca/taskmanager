@@ -28,6 +28,7 @@ public class UserCrudControllerTest {
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
     private static final User DUMMY_USER = new User();
+    private static final UserDto NO_USER_DATA = null;
 
     private UserCrudController controller = new UserCrudController(IN_MEMORY_USER_REPOSITORY);
 
@@ -84,9 +85,7 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfUpdatedUserDoesNotExist() {
-        UserDto user = null;
-
-        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_2, user);
+        ResponseEntity<UserDto> response = controller.updateUser(USER_ID_2, NO_USER_DATA);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
