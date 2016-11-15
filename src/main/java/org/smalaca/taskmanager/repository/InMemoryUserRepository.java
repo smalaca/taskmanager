@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.repository;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.exception.UserAlreadyExistsExcetion;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 
 import java.util.ArrayList;
@@ -51,6 +52,15 @@ class InMemoryUserRepository implements UserRepository {
             users.remove(user.getId());
         } else {
             throw new UserNotFoundException("User with id: " + user.getId() + " does not exist and cannot be removed.");
+        }
+    }
+
+    @Override
+    public void add(User user) {
+        if (!users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+        } else {
+            throw new UserAlreadyExistsExcetion("User with given id already exists.");
         }
     }
 }

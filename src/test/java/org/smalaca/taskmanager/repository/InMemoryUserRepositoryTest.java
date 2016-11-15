@@ -2,6 +2,7 @@ package org.smalaca.taskmanager.repository;
 
 import org.junit.Test;
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.exception.UserAlreadyExistsExcetion;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class InMemoryUserRepositoryTest {
     private static final String SOME_EXISTING_USER_ID = "1";
     private static final String SOME_NON_EXISTING_USER_ID = "101";
     private static final User NOT_EXISITING_USER = aUser(SOME_NON_EXISTING_USER_ID, "Mary Jane", "Watson", "mjwatson");
+    private static final User SEBASTIAN_MALACA = aUser("1", "Sebastian", "Malaca", "smalaca");
 
     private UserRepository repository = new InMemoryUserRepository();
 
@@ -38,7 +40,7 @@ public class InMemoryUserRepositoryTest {
         List<User> users = repository.findAll();
 
         assertThat(users.size()).isEqualTo(5);
-        assertThat(users.get(0)).isEqualToComparingFieldByField(aUser("1", "Sebastian", "Malaca", "smalaca"));
+        assertThat(users.get(0)).isEqualToComparingFieldByField(SEBASTIAN_MALACA);
         assertThat(users.get(1)).isEqualToComparingFieldByField(aUser("2", "Peter", "Parker", "Spider Man"));
         assertThat(users.get(2)).isEqualToComparingFieldByField(aUser("3", "Clark", "Kent", "Super Man"));
         assertThat(users.get(3)).isEqualToComparingFieldByField(aUser("4", "Bruce", "Wayne", "Batman"));
@@ -70,6 +72,25 @@ public class InMemoryUserRepositoryTest {
             fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
         } catch (UserNotFoundException exception) {
             assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
+        }
+    }
+
+    @Test
+    public void shouldAddNewUser() throws UserNotFoundException {
+        repository.add(NOT_EXISITING_USER);
+
+        User user = repository.findById(SOME_NON_EXISTING_USER_ID);
+
+        assertThat(user).isEqualToComparingFieldByField(NOT_EXISITING_USER);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUserWithTheSameIdAlreadyExists() {
+        try {
+            repository.add(SEBASTIAN_MALACA);
+            fail("User with id: " + SOME_EXISTING_USER_ID + " already exists and cannot be added once again.");
+        } catch (UserAlreadyExistsExcetion exception) {
+            assertThat(exception.getMessage()).isEqualTo("User with given id already exists.");
         }
     }
 
