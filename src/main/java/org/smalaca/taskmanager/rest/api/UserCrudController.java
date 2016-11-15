@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class UserCrudController {
@@ -68,19 +69,27 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody UserDto user, UriComponentsBuilder uriComponentsBuilder) {
-        /**
-         * 1. Data validation
-         * 2. Checking whether someone like this exist
-         * 3. Convert data to user (Builder :)
-         */
-        if (user == null) {
-            // user exitst
+    public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
+        // data validation - same in edit
+
+        try {
+            // Checking whether someone like this exist
+            userRepository.findByName(userDto.getFirstName(), userDto.getLastName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        } catch (UserNotFoundException exception) {}
+
+        String identifier = UUID.randomUUID().toString();
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setLogin(userDto.getLogin());
+        user.setPassword(userDto.getPassword());
+        user.setId(identifier);
+
+        userRepository.add(user);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(USER_ID_1).toUri());
+        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(identifier).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

@@ -30,6 +30,8 @@ public class UserCrudControllerTest {
     private static final String NOT_EXISTING_USER_ID = "101";
     private static final User DUMMY_USER = new User();
     private static final UserDto NO_USER_DATA = null;
+    public static final String SEBASTIAN = "Sebastian";
+    public static final String MALACA = "Malaca";
 
     private UserCrudController controller = new UserCrudController(aInMemoryUserRepository());
 
@@ -58,30 +60,37 @@ public class UserCrudControllerTest {
 
     private void assertUser(UserDto user) {
         assertThat(user.getId()).isEqualTo(EXISTING_USER_ID);
-        assertThat(user.getFirstName()).isEqualTo("Sebastian");
-        assertThat(user.getLastName()).isEqualTo("Malaca");
+        assertThat(user.getFirstName()).isEqualTo(SEBASTIAN);
+        assertThat(user.getLastName()).isEqualTo(MALACA);
         assertThat(user.getLogin()).isEqualTo("smalaca");
     }
 
     @Test
     public void shouldInformAboutConflictWhenCreatedUserAlreadyExists() {
-        UserDto user = null;
         UriComponentsBuilder uriComponentsBuilder = null;
+        UserDto sebastianMalaca = givenUserWithFirstAndLastName(SEBASTIAN, MALACA);
 
-        ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
+        ResponseEntity<Void> response = controller.createUser(sebastianMalaca, uriComponentsBuilder);
 
         assertThat(response.getStatusCode()).isEqualTo(CONFLICT);
     }
 
     @Test
     public void shouldCreateUser() {
-        UserDto user = new UserDto();
+        UserDto user = givenUserWithFirstAndLastName("Natasha", "Romanow");
         UriComponentsBuilder uriComponentsBuilder = fromUriString("/");
 
         ResponseEntity<Void> response = controller.createUser(user, uriComponentsBuilder);
 
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
-        assertThat(response.getHeaders().getLocation().getPath()).isEqualTo("/user/13");
+        assertThat(response.getHeaders().getLocation().getPath()).matches("/user/[0-9a-z\\-]+");
+    }
+
+    private UserDto givenUserWithFirstAndLastName(String firstName, String lastName) {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(firstName);
+        userDto.setLastName(lastName);
+        return userDto;
     }
 
     @Test
