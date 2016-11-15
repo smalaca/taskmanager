@@ -4,10 +4,11 @@ import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.exception.UserAlreadyExistsExcetion;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.collect.ImmutableList.copyOf;
 
 class InMemoryUserRepository implements UserRepository {
     private static final String DUMMY_PASSWORD = "somethingExtremelyConfidential";
@@ -34,14 +35,14 @@ class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(users.values());
+        return copyOf(users.values());
     }
 
 
     @Override
     public User findById(String id) {
         if (users.containsKey(id)) {
-            return users.get(id);
+            return users.get(id).copy();
         } else {
             throw new UserNotFoundException("User with id: " + id + " does not exist.");
         }

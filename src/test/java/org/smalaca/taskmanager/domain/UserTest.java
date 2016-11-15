@@ -13,6 +13,23 @@ public class UserTest {
 
     @Test
     public void shouldCreateUserWithGivenData() {
+        User user1 = new User();
+        user1.setId(DUMMY_ID);
+        user1.setFirstName(DUMMY_FIRST_NAME);
+        user1.setLastName(DUMMY_LAST_NAME);
+        user1.setLogin(DUMMY_LOGIN);
+        user1.setPassword(DUMMY_PASSWORD);
+        User user = user1;
+
+        assertThat(user.getId()).isEqualTo(DUMMY_ID);
+        assertThat(user.getFirstName()).isEqualTo(DUMMY_FIRST_NAME);
+        assertThat(user.getLastName()).isEqualTo(DUMMY_LAST_NAME);
+        assertThat(user.getLogin()).isEqualTo(DUMMY_LOGIN);
+        assertThat(user.getPassword()).isEqualTo(DUMMY_PASSWORD);
+    }
+
+    @Test
+    public void shouldCreateCopyOfUser() {
         User user = new User();
         user.setId(DUMMY_ID);
         user.setFirstName(DUMMY_FIRST_NAME);
@@ -20,9 +37,9 @@ public class UserTest {
         user.setLogin(DUMMY_LOGIN);
         user.setPassword(DUMMY_PASSWORD);
 
-        assertThat(user.getId()).isEqualTo(DUMMY_ID);
-        assertThat(user.getFirstName()).isEqualTo(DUMMY_FIRST_NAME);
-        assertThat(user.getLogin()).isEqualTo(DUMMY_LOGIN);
-        assertThat(user.getPassword()).isEqualTo(DUMMY_PASSWORD);
+        User copy = user.copy();
+
+        assertThat(copy).isEqualToComparingFieldByField(user);
+        assertThat(copy).isNotSameAs(user);
     }
 }
