@@ -14,7 +14,9 @@ public class InMemoryUserRepositoryTest {
     private static final String SOME_EXISTING_USER_ID = "1";
     private static final String SOME_NON_EXISTING_USER_ID = "101";
     private static final User NOT_EXISITING_USER = aUser(SOME_NON_EXISTING_USER_ID, "Mary Jane", "Watson", "mjwatson");
-    private static final User SEBASTIAN_MALACA = aUser("1", "Sebastian", "Malaca", "smalaca");
+    private static final String FIRST_NAME = "Sebastian";
+    private static final String LAST_NAME = "Malaca";
+    private static final User SEBASTIAN_MALACA = aUser(SOME_EXISTING_USER_ID, FIRST_NAME, LAST_NAME, "smalaca");
 
     private UserRepository repository = new InMemoryUserRepository();
 
@@ -22,7 +24,7 @@ public class InMemoryUserRepositoryTest {
     public void shouldReturnRetrievedUser() throws UserNotFoundException {
         User user = repository.findById(SOME_EXISTING_USER_ID);
 
-        assertThat(user).isEqualToComparingFieldByField(aUser(SOME_EXISTING_USER_ID, "Sebastian", "Malaca", "smalaca"));
+        assertThat(user).isEqualToComparingFieldByField(SEBASTIAN_MALACA);
     }
 
     @Test
@@ -32,6 +34,23 @@ public class InMemoryUserRepositoryTest {
             fail("User with id: " + SOME_NON_EXISTING_USER_ID + " should be recognized as not existing.");
         } catch (UserNotFoundException exception) {
             assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist.");
+        }
+    }
+
+    @Test
+    public void shouldReturnUserSearchedByNameWhenExists() throws UserNotFoundException {
+        User user = repository.findByName(FIRST_NAME, LAST_NAME);
+
+        assertThat(user).isEqualToComparingFieldByField(SEBASTIAN_MALACA);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenSearchedByNameUserDoesNotExist() {
+        try {
+            repository.findByName("Wilson", "Fisk");
+            fail("User Wilson Fisk should be recognized as not existing.");
+        } catch (UserNotFoundException exception) {
+            assertThat(exception.getMessage()).isEqualTo("User Wilson Fisk does not exists.");
         }
     }
 

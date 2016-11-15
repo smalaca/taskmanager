@@ -33,6 +33,12 @@ class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
+    public List<User> findAll() {
+        return new ArrayList<>(users.values());
+    }
+
+
+    @Override
     public User findById(String id) {
         if (users.containsKey(id)) {
             return users.get(id);
@@ -42,8 +48,14 @@ class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        return new ArrayList<>(users.values());
+    public User findByName(String firstName, String lastName) {
+        for (User user : findAll()) {
+            if (user.getFirstName().equals(firstName) && user.getLastName().equals(lastName)) {
+                return user;
+            }
+        }
+
+        throw new UserNotFoundException("User " + firstName + " " + lastName  + " does not exists.");
     }
 
     @Override

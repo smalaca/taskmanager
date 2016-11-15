@@ -5,9 +5,11 @@ import org.smalaca.taskmanager.domain.User;
 import java.util.List;
 
 public interface UserRepository {
+    List<User> findAll();
+
     User findById(String someExistingUserId);
 
-    List<User> findAll();
+    User findByName(String firstName, String lastName);
 
     void remove(User user);
 
