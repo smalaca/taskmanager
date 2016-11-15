@@ -44,7 +44,7 @@ class InMemoryUserRepository implements UserRepository {
         if (users.containsKey(id)) {
             return users.get(id).copy();
         } else {
-            throw new UserNotFoundException("User with id: " + id + " does not exist.");
+            throw aUserNotFoundExceptionFor(id);
         }
     }
 
@@ -64,7 +64,7 @@ class InMemoryUserRepository implements UserRepository {
         if (users.containsKey(id)) {
             users.remove(id, users.get(id));
         } else {
-            throw new UserNotFoundException("User with id: " + id + " does not exist and cannot be removed.");
+            throw aUserNotFoundExceptionFor(id);
         }
     }
 
@@ -82,7 +82,11 @@ class InMemoryUserRepository implements UserRepository {
         if (users.containsKey(user.getId())) {
             users.replace(user.getId(), user);
         } else {
-            throw new UserNotFoundException("User with id: " + user.getId() + " does not exist and cannot be updated.");
+            throw aUserNotFoundExceptionFor(user.getId());
         }
+    }
+
+    private UserNotFoundException aUserNotFoundExceptionFor(String id) {
+        return new UserNotFoundException("User with id: " + id + " does not exist.");
     }
 }

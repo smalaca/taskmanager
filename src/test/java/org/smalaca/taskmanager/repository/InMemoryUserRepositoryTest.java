@@ -88,7 +88,7 @@ public class InMemoryUserRepositoryTest {
             repository.removeById(SOME_NON_EXISTING_USER_ID);
             fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
         } catch (UserNotFoundException exception) {
-            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
+            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist.");
         }
     }
 
@@ -128,7 +128,7 @@ public class InMemoryUserRepositoryTest {
             repository.update(NOT_EXISITING_USER);
             fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be updated.");
         } catch (UserNotFoundException exception) {
-            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be updated.");
+            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist.");
         }
     }
 
