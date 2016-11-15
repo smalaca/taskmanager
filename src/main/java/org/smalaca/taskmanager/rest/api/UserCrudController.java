@@ -73,21 +73,21 @@ public class UserCrudController {
             // Checking whether someone like this exist
             userRepository.findByName(userDto.getFirstName(), userDto.getLastName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } catch (UserNotFoundException exception) {}
+        } catch (UserNotFoundException exception) {
+            String identifier = UUID.randomUUID().toString();
+            User user = new User();
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setLogin(userDto.getLogin());
+            user.setPassword(userDto.getPassword());
+            user.setId(identifier);
 
-        String identifier = UUID.randomUUID().toString();
-        User user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setLogin(userDto.getLogin());
-        user.setPassword(userDto.getPassword());
-        user.setId(identifier);
+            userRepository.add(user);
 
-        userRepository.add(user);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(identifier).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(identifier).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        }
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
