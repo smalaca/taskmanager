@@ -2,6 +2,7 @@ package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.dto.UserDto;
+import org.smalaca.taskmanager.exception.InMemoryStorageException;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
@@ -111,7 +112,7 @@ public class UserCrudController {
         try {
             userRepository.remove(user);
             return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception exception) {
+        } catch (InMemoryStorageException exception) {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }

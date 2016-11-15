@@ -3,6 +3,7 @@ package org.smalaca.taskmanager.rest.api;
 import org.junit.Test;
 import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.dto.UserDto;
+import org.smalaca.taskmanager.exception.InMemoryStorageException;
 import org.smalaca.taskmanager.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -126,7 +127,7 @@ public class UserCrudControllerTest {
     private UserRepository aGivenUserRepositoryCannotRemoveExistingUser() {
         UserRepository userRepository = mock(UserRepository.class);
         given(userRepository.findById(EXISTING_USER_ID)).willReturn(DUMMY_USER);
-        doThrow(new RuntimeException("Bad things happen.")).when(userRepository).remove(DUMMY_USER);
+        doThrow(new InMemoryStorageException("Bad things happen.")).when(userRepository).remove(DUMMY_USER);
         return userRepository;
     }
 }
