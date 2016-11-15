@@ -2,13 +2,13 @@ package org.smalaca.taskmanager.rest.api;
 
 import org.junit.Test;
 import org.smalaca.taskmanager.dto.UserDto;
-import org.smalaca.taskmanager.repository.UserRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.smalaca.taskmanager.repository.UserRepositories.IN_MEMORY_USER_REPOSITORY;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -21,7 +21,7 @@ public class UserCrudControllerTest {
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
 
-    private UserCrudController controller = new UserCrudController(UserRepositories.IN_MEMORY);
+    private UserCrudController controller = new UserCrudController(IN_MEMORY_USER_REPOSITORY);
 
     @Test
     public void shouldReturnAllUsers() {
