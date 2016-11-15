@@ -20,8 +20,10 @@ public class UserCrudControllerTest {
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
     private static final UserDto NO_USER_DATA = null;
-    public static final String SEBASTIAN = "Sebastian";
-    public static final String MALACA = "Malaca";
+    private static final String SEBASTIAN = "Sebastian";
+    private static final String MALACA = "Malaca";
+    private static final String LOGIN = "smalaca";
+    private static final String PASSWORD = "somethingExtremelyConfidential";
 
     private UserCrudController controller = new UserCrudController(aInMemoryUserRepository());
 
@@ -46,13 +48,6 @@ public class UserCrudControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
         assertUser(response.getBody());
-    }
-
-    private void assertUser(UserDto user) {
-        assertThat(user.getId()).isEqualTo(EXISTING_USER_ID);
-        assertThat(user.getFirstName()).isEqualTo(SEBASTIAN);
-        assertThat(user.getLastName()).isEqualTo(MALACA);
-        assertThat(user.getLogin()).isEqualTo("smalaca");
     }
 
     @Test
@@ -97,6 +92,22 @@ public class UserCrudControllerTest {
         ResponseEntity<UserDto> response = controller.updateUser(NOT_EXISTING_USER_ID, NO_USER_DATA);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
+    }
+
+    @Test
+    public void shouldNotUpdateAnythingWhenNoChangesSend() {
+        ResponseEntity<UserDto> response = controller.updateUser(EXISTING_USER_ID, new UserDto());
+
+        assertThat(response.getStatusCode()).isEqualTo(OK);
+        assertUser(controller.getUser(EXISTING_USER_ID).getBody());
+    }
+
+    private void assertUser(UserDto user) {
+        assertThat(user.getId()).isEqualTo(EXISTING_USER_ID);
+        assertThat(user.getFirstName()).isEqualTo(SEBASTIAN);
+        assertThat(user.getLastName()).isEqualTo(MALACA);
+        assertThat(user.getLogin()).isEqualTo(LOGIN);
+        assertThat(user.getPassword()).isEqualTo(PASSWORD);
     }
 
     @Test
