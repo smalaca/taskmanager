@@ -60,11 +60,11 @@ class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void remove(User user) {
-        if (users.containsValue(user)) {
-            users.remove(user.getId());
+    public void removeById(String id) {
+        if (users.containsKey(id)) {
+            users.remove(id, users.get(id));
         } else {
-            throw new UserNotFoundException("User with id: " + user.getId() + " does not exist and cannot be removed.");
+            throw new UserNotFoundException("User with id: " + id + " does not exist and cannot be removed.");
         }
     }
 

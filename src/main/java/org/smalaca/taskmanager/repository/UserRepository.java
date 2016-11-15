@@ -7,11 +7,11 @@ import java.util.List;
 public interface UserRepository {
     List<User> findAll();
 
-    User findById(String someExistingUserId);
+    User findById(String id);
 
     User findByName(String firstName, String lastName);
 
-    void remove(User user);
+    void removeById(String id);
 
     void add(User user);
 }

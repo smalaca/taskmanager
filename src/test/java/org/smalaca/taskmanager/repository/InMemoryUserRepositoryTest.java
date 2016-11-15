@@ -68,9 +68,7 @@ public class InMemoryUserRepositoryTest {
 
     @Test
     public void shouldDeleteExistingUser() throws UserNotFoundException {
-        User user = repository.findById(SOME_EXISTING_USER_ID);
-
-        repository.remove(user);
+        repository.removeById(SOME_EXISTING_USER_ID);
 
         assertThatUserWasRemoved(SOME_EXISTING_USER_ID);
     }
@@ -87,7 +85,7 @@ public class InMemoryUserRepositoryTest {
     @Test
     public void shouldThrowExceptionWhenDeletedUserDoesNotExist() {
         try {
-            repository.remove(NOT_EXISITING_USER);
+            repository.removeById(SOME_NON_EXISTING_USER_ID);
             fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
         } catch (UserNotFoundException exception) {
             assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");

@@ -1,21 +1,14 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.junit.Test;
-import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.dto.UserDto;
-import org.smalaca.taskmanager.exception.InMemoryStorageException;
-import org.smalaca.taskmanager.repository.UserRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.smalaca.taskmanager.repository.UserRepositories.aInMemoryUserRepository;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -28,7 +21,6 @@ public class UserCrudControllerTest {
     private static final String USER_ID_1 = "69";
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
-    private static final User DUMMY_USER = new User();
     private static final UserDto NO_USER_DATA = null;
     public static final String SEBASTIAN = "Sebastian";
     public static final String MALACA = "Malaca";
@@ -84,6 +76,7 @@ public class UserCrudControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
         assertThat(response.getHeaders().getLocation().getPath()).matches("/user/[0-9a-z\\-]+");
+        assertThatUserWasCreated("Natasha", "Romanow", response.getHeaders());
     }
 
     private UserDto givenUserWithFirstAndLastName(String firstName, String lastName) {
@@ -91,6 +84,14 @@ public class UserCrudControllerTest {
         userDto.setFirstName(firstName);
         userDto.setLastName(lastName);
         return userDto;
+    }
+
+    private void assertThatUserWasCreated(String firstName, String lastName, HttpHeaders headers) {
+        String userId = headers.getLocation().getPath().replace("/user/", "");
+        UserDto user = controller.getUser(userId).getBody();
+
+        assertThat(user.getFirstName()).isEqualTo(firstName);
+        assertThat(user.getLastName()).isEqualTo(lastName);
     }
 
     @Test
@@ -110,33 +111,15 @@ public class UserCrudControllerTest {
 
     @Test
     public void shouldReturnNotFoundIfDeletedUserDoesNotExist() {
-        ResponseEntity<Boolean> response = controller.deleteUser(NOT_EXISTING_USER_ID);
+        ResponseEntity<Void> response = controller.deleteUser(NOT_EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 
     @Test
     public void shouldDeleteExistingUser() {
-        ResponseEntity<Boolean> response = controller.deleteUser(EXISTING_USER_ID);
+        ResponseEntity<Void> response = controller.deleteUser(EXISTING_USER_ID);
 
         assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody()).isEqualTo(TRUE);
-    }
-
-    @Test
-    public void shouldInformAboutProblemDuringUserDeletetion() {
-        UserCrudController controller = new UserCrudController(aGivenUserRepositoryCannotRemoveExistingUser());
-
-        ResponseEntity<Boolean> response = controller.deleteUser(EXISTING_USER_ID);
-
-        assertThat(response.getStatusCode()).isEqualTo(OK);
-        assertThat(response.getBody()).isEqualTo(FALSE);
-    }
-
-    private UserRepository aGivenUserRepositoryCannotRemoveExistingUser() {
-        UserRepository userRepository = mock(UserRepository.class);
-        given(userRepository.findById(EXISTING_USER_ID)).willReturn(DUMMY_USER);
-        doThrow(new InMemoryStorageException("Bad things happen.")).when(userRepository).remove(DUMMY_USER);
-        return userRepository;
     }
 }

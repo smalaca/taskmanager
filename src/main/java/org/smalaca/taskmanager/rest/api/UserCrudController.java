@@ -2,7 +2,6 @@ package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.dto.UserDto;
-import org.smalaca.taskmanager.exception.InMemoryStorageException;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
@@ -70,7 +69,7 @@ public class UserCrudController {
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
-        // data validation - same in edit
+        // data validation
 
         try {
             // Checking whether someone like this exist
@@ -109,20 +108,14 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") String id) {
-        User user;
-
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
         try {
-            user = userRepository.findById(id);
+            userRepository.findById(id);
         } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        try {
-            userRepository.remove(user);
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (InMemoryStorageException exception) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
-        }
+        userRepository.removeById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
