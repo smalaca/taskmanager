@@ -12,6 +12,7 @@ import static org.junit.Assert.fail;
 public class InMemoryUserRepositoryTest {
     private static final String SOME_EXISTING_USER_ID = "1";
     private static final String SOME_NON_EXISTING_USER_ID = "101";
+    private static final User NOT_EXISITING_USER = aUser(SOME_NON_EXISTING_USER_ID, "Mary Jane", "Watson", "mjwatson");
 
     private UserRepository repository = new InMemoryUserRepository();
 
@@ -26,7 +27,7 @@ public class InMemoryUserRepositoryTest {
     public void shouldThrowExceptionWhenRetrievedUserDoesNotExist() {
         try {
             repository.findById(SOME_NON_EXISTING_USER_ID);
-            fail("User with id: " + SOME_NON_EXISTING_USER_ID + " should be recognized as not existing");
+            fail("User with id: " + SOME_NON_EXISTING_USER_ID + " should be recognized as not existing.");
         } catch (UserNotFoundException exception) {
             assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist.");
         }
@@ -44,7 +45,35 @@ public class InMemoryUserRepositoryTest {
         assertThat(users.get(4)).isEqualToComparingFieldByField(aUser("5", "Anthony", "Stark", "Iron Man"));
     }
 
-    private User aUser(String identifier, String firstName, String lastName, String login) {
+    @Test
+    public void shouldDeleteExistingUser() throws UserNotFoundException {
+        User user = repository.findById(SOME_EXISTING_USER_ID);
+
+        repository.remove(user);
+
+        assertThatUserWasRemoved(SOME_EXISTING_USER_ID);
+    }
+
+    private void assertThatUserWasRemoved(String id) {
+        try {
+            repository.findById(id);
+            fail("User with id: " + id + " should be removed.");
+        } catch (UserNotFoundException exception) {
+            assertThat(exception.getMessage()).isEqualTo("User with id: " + id + " does not exist.");
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenDeletedUserDoesNotExist() {
+        try {
+            repository.remove(NOT_EXISITING_USER);
+            fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
+        } catch (UserNotFoundException exception) {
+            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be removed.");
+        }
+    }
+
+    private static User aUser(String identifier, String firstName, String lastName, String login) {
         User user = new User();
         user.setId(identifier);
         user.setFirstName(firstName);

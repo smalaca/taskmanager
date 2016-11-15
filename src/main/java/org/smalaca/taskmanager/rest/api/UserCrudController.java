@@ -99,11 +99,20 @@ public class UserCrudController {
     }
 
     @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
-        if (USER_ID_1.equals(id)) {
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") String id) {
+        User user;
+
+        try {
+            user = userRepository.findById(id);
+        } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            userRepository.remove(user);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
     }
 }

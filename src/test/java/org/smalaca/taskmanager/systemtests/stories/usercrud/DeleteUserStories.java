@@ -22,7 +22,7 @@ public class DeleteUserStories extends JBehaveConfiguration {
 
     @Given("a user id")
     public void givenUserData() {
-        userId = "69";
+        userId = "1";
     }
 
     @When("sends a request")

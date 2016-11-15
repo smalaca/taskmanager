@@ -8,4 +8,6 @@ public interface UserRepository {
     User findById(String someExistingUserId);
 
     List<User> findAll();
+
+    void remove(User user);
 }
