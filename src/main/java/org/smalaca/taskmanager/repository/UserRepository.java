@@ -14,4 +14,6 @@ public interface UserRepository {
     void removeById(String id);
 
     void add(User user);
+
+    void update(User user);
 }

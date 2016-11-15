@@ -97,7 +97,6 @@ public class InMemoryUserRepositoryTest {
         repository.add(NOT_EXISITING_USER);
 
         User user = repository.findById(SOME_NON_EXISTING_USER_ID);
-
         assertThat(user).isEqualToComparingFieldByField(NOT_EXISITING_USER);
     }
 
@@ -108,6 +107,28 @@ public class InMemoryUserRepositoryTest {
             fail("User with id: " + SOME_EXISTING_USER_ID + " already exists and cannot be added once again.");
         } catch (UserAlreadyExistsExcetion exception) {
             assertThat(exception.getMessage()).isEqualTo("User with given id already exists.");
+        }
+    }
+
+    @Test
+    public void shouldUpdateExistingUser() throws UserNotFoundException {
+        String newLogin = "simple developer";
+        User userToEdit = repository.findById(SOME_EXISTING_USER_ID);
+        userToEdit.setLogin(newLogin);
+
+        repository.update(userToEdit);
+
+        User user = repository.findById(SOME_EXISTING_USER_ID);
+        assertThat(user.getLogin()).isEqualTo(newLogin);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUpdatedUserDoesNotExist() {
+        try {
+            repository.update(NOT_EXISITING_USER);
+            fail("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be updated.");
+        } catch (UserNotFoundException exception) {
+            assertThat(exception.getMessage()).isEqualTo("User with id: " + SOME_NON_EXISTING_USER_ID + " does not exist and cannot be updated.");
         }
     }
 

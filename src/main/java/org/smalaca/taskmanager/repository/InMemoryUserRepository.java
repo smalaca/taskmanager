@@ -76,4 +76,13 @@ class InMemoryUserRepository implements UserRepository {
             throw new UserAlreadyExistsExcetion("User with given id already exists.");
         }
     }
+
+    @Override
+    public void update(User user) {
+        if (users.containsKey(user.getId())) {
+            users.replace(user.getId(), user);
+        } else {
+            throw new UserNotFoundException("User with id: " + user.getId() + " does not exist and cannot be updated.");
+        }
+    }
 }
