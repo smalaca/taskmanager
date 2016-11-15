@@ -65,7 +65,7 @@
         </module>
         <module name="MagicNumber"/>
         <module name="MethodCount">
-            <property name="maxTotal" value="10"/>
+            <property name="maxTotal" value="20"/>
         </module>
         <module name="MethodLength">
             <property name="max" value="40"/>
