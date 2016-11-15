@@ -23,7 +23,7 @@ public class EditUserStories extends JBehaveConfiguration {
     @Given("a user data")
     public void givenUserData() {
         user = new UserDto();
-        user.setName("Sebastian");
+        user.setFirstName("Sebastian");
     }
 
     @When("sends a request")

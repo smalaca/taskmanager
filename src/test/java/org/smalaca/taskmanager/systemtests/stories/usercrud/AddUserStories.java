@@ -25,7 +25,7 @@ public class AddUserStories extends JBehaveConfiguration {
     @Given("a new user data")
     public void givenANewUser() {
         user = new UserDto();
-        user.setName("Sebastian");
+        user.setFirstName("Sebastian");
     }
 
     @When("sends a request")
