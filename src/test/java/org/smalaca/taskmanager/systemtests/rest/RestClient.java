@@ -11,29 +11,35 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 public class RestClient {
-    private static final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+    private final String hostName;
 
-    public static String hostName() {
-        return "http://localhost:8080";
+    public RestClient(RestTemplate restTemplate, String hostName) {
+        this.restTemplate = restTemplate;
+        this.hostName = hostName;
     }
 
-    public static List<UserDto> getAllUsers() {
+    public String hostName() {
+        return hostName;
+    }
+
+    public List<UserDto> getAllUsers() {
         return restTemplate.getForObject(hostName() + "/user", List.class);
     }
 
-    public static URI createUser(UserDto user) {
+    public URI createUser(UserDto user) {
         return restTemplate.postForLocation(hostName() + "/user/", user, UserDto.class);
     }
 
-    public static void updateUser(String userId, UserDto user) {
+    public void updateUser(String userId, UserDto user) {
         restTemplate.put(hostName() + "/user/" + userId, user);
     }
 
-    public static UserDto getUser(String userId) {
+    public UserDto getUser(String userId) {
         return restTemplate.getForObject(hostName() + "/user/" + userId, UserDto.class);
     }
 
-    public static HttpStatus getNonExistingUser(String userId) {
+    public HttpStatus getNonExistingUser(String userId) {
         try {
             restTemplate.getForEntity(hostName() + "/user/" + userId, UserDto.class);
         } catch (HttpStatusCodeException exception) {
@@ -43,7 +49,7 @@ public class RestClient {
         return OK;
     }
 
-    public static void deleteUser(String userId) {
+    public void deleteUser(String userId) {
         restTemplate.delete(hostName() + "/user/" + userId);
     }
 }

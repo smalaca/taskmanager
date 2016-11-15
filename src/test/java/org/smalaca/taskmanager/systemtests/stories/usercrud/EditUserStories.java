@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.smalaca.taskmanager.Application;
 import org.smalaca.taskmanager.systemtests.JBehaveConfiguration;
 import org.smalaca.taskmanager.systemtests.dto.UserDto;
-import org.smalaca.taskmanager.systemtests.rest.RestClient;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,11 +28,11 @@ public class EditUserStories extends JBehaveConfiguration {
 
     @When("sends a request")
     public void whenUpdatesUser() {
-        RestClient.updateUser(USER_ID, user);
+        getRestClient().updateUser(USER_ID, user);
     }
 
     @Then("user is updated")
     public void thenUserIsUpdated() {
-        assertThat(RestClient.getUser(USER_ID).getId()).isEqualTo(USER_ID);
+        assertThat(getRestClient().getUser(USER_ID).getId()).isEqualTo(USER_ID);
     }
 }

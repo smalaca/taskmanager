@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.smalaca.taskmanager.Application;
 import org.smalaca.taskmanager.systemtests.JBehaveConfiguration;
 import org.smalaca.taskmanager.systemtests.dto.UserDto;
-import org.smalaca.taskmanager.systemtests.rest.RestClient;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -15,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.smalaca.taskmanager.systemtests.rest.RestClient.hostName;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -32,11 +30,11 @@ public class AddUserStories extends JBehaveConfiguration {
 
     @When("sends a request")
     public void whenCreatesNewUser() {
-        userUri = RestClient.createUser(user);
+        userUri = getRestClient().createUser(user);
     }
 
     @Then("user is created")
     public void thenUserIsCreated() {
-        assertThat(userUri.toASCIIString()).isEqualTo(hostName() + "/user/13");
+        assertThat(userUri.toASCIIString()).isEqualTo(getRestClient().hostName() + "/user/13");
     }
 }

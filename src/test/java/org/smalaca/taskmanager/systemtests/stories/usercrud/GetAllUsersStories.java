@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.smalaca.taskmanager.Application;
 import org.smalaca.taskmanager.systemtests.JBehaveConfiguration;
 import org.smalaca.taskmanager.systemtests.dto.UserDto;
-import org.smalaca.taskmanager.systemtests.rest.RestClient;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,7 +22,7 @@ public class GetAllUsersStories extends JBehaveConfiguration {
 
     @When("retrieves all users")
     public void retrieveAllUsers() {
-        allUsersResponse = RestClient.getAllUsers();
+        allUsersResponse = getRestClient().getAllUsers();
     }
 
     @Then("returns all stored users")

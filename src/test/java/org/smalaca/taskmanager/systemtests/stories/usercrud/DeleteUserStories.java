@@ -6,7 +6,6 @@ import org.jbehave.core.annotations.When;
 import org.junit.runner.RunWith;
 import org.smalaca.taskmanager.Application;
 import org.smalaca.taskmanager.systemtests.JBehaveConfiguration;
-import org.smalaca.taskmanager.systemtests.rest.RestClient;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,11 +26,11 @@ public class DeleteUserStories extends JBehaveConfiguration {
 
     @When("sends a request")
     public void whenDeleteUser() {
-        RestClient.deleteUser(userId);
+        getRestClient().deleteUser(userId);
     }
 
     @Then("user is removed")
     public void thenUserIsRemoved() {
-        assertThat(RestClient.getNonExistingUser(userId)).isEqualTo(NOT_FOUND);
+        assertThat(getRestClient().getNonExistingUser(userId)).isEqualTo(NOT_FOUND);
     }
 }

@@ -13,10 +13,13 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.ParameterConverters;
+import org.smalaca.taskmanager.systemtests.rest.RestClient;
+import org.springframework.web.client.RestTemplate;
 
 import static org.jbehave.core.reporters.Format.CONSOLE;
 
 public abstract class JBehaveConfiguration extends JUnitStory {
+    private final RestClient restClient = new RestClient(new RestTemplate(), "http://localhost:8080");
 
     @Override
     public Embedder configuredEmbedder() {
@@ -53,5 +56,9 @@ public abstract class JBehaveConfiguration extends JUnitStory {
     @Override
     public InjectableStepsFactory stepsFactory() {
         return new InstanceStepsFactory(configuration(), this);
+    }
+
+    protected RestClient getRestClient() {
+        return restClient;
     }
 }
