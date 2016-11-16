@@ -287,7 +287,6 @@
             <configuration>
               <excludes>
                 <exclude>org/smalaca/taskmanager/Application.*</exclude>
-                <exclude>org/smalaca/taskmanager/exception/*Exception.*</exclude>
               </excludes>
             </configuration>
 
