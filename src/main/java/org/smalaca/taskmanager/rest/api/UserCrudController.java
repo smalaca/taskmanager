@@ -70,7 +70,6 @@ public class UserCrudController {
         // data validation
 
         try {
-            // Checking whether someone like this exist
             userRepository.findByName(userDto.getFirstName(), userDto.getLastName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (UserNotFoundException exception) {
