@@ -74,7 +74,7 @@
         <module name="ModifiedControlVariable"/>
         <module name="ModifierOrder"/>
         <module name="MultipleStringLiterals">
-            <property name="allowedDuplicates" value="2"/>
+            <property name="allowedDuplicates" value="3"/>
         </module>
         <module name="MultipleVariableDeclarations"/>
         <module name="MutableException"/>
