@@ -1,7 +1,8 @@
-package org.smalaca.taskmanager.rest.api;
+package org.smalaca.taskmanager.componenttests.rest.api;
 
 import org.junit.Test;
 import org.smalaca.taskmanager.dto.UserDto;
+import org.smalaca.taskmanager.rest.api.UserCrudController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +17,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
-public class UserCrudControllerTest {
+public class UserCrudControllerComponentTest {
     private static final String EXISTING_USER_ID = "1";
     private static final String NOT_EXISTING_USER_ID = "101";
     private static final UserDto NO_USER_DATA = null;
