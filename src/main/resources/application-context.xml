@@ -5,8 +5,4 @@
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="in-memory-repositories.xml"/>
-
-    <bean id="userCrudController" class="org.smalaca.taskmanager.rest.api.UserCrudController">
-        <constructor-arg ref="userRepository"/>
-    </bean>
 </beans>

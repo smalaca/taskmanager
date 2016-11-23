@@ -4,6 +4,7 @@ import org.smalaca.taskmanager.domain.User;
 import org.smalaca.taskmanager.dto.UserDto;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,17 +21,16 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/user")
 public class UserCrudController {
-    private static final String USER_PATH = "/user";
-    private static final String SPECIFIC_USER_PATH = USER_PATH + "/{id}";
-
     private final UserRepository userRepository;
 
+    @Autowired
     public UserCrudController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping(value = USER_PATH, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> usersDtos = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class UserCrudController {
         return new ResponseEntity<>(usersDtos, HttpStatus.OK);
     }
 
-    @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getUser(@PathVariable("id") String id) {
         try {
             User user = userRepository.findById(id);
@@ -65,7 +65,7 @@ public class UserCrudController {
         }
     }
 
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
         // data validation
 
@@ -84,12 +84,12 @@ public class UserCrudController {
             userRepository.add(user);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path(SPECIFIC_USER_PATH).buildAndExpand(identifier).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/{id}").buildAndExpand(identifier).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
     }
 
-    @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserDto userDto) {
         // data validation
         User user;
@@ -119,7 +119,7 @@ public class UserCrudController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @RequestMapping(value = SPECIFIC_USER_PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
         try {
             userRepository.findById(id);
