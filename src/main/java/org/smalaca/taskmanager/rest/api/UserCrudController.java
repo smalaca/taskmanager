@@ -84,7 +84,7 @@ public class UserCrudController {
             userRepository.add(user);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/{id}").buildAndExpand(identifier).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/user/{id}").buildAndExpand(identifier).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
     }
