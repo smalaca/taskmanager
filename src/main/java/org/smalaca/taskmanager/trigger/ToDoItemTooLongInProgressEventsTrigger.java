@@ -1,4 +1,15 @@
 package org.smalaca.taskmanager.trigger;
 
-public class ToDoItemTooLongInProgressEventsTrigger {
+import org.smalaca.taskmanager.domain.Task;
+
+public class ToDoItemTooLongInProgressEventsTrigger implements CommunicationEventTrigger {
+    @Override
+    public boolean isApplicableFor(Task task) {
+        return false;
+    }
+
+    @Override
+    public void trigger(Task task) {
+
+    }
 }
