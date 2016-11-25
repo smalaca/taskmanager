@@ -8,6 +8,14 @@ public class ToDoItemAssignedEventsTrigger implements CommunicationEventTrigger 
         return false;
     }
 
+//    * is initialized and assigned to the team
+//    *
+//            *      EVENTS (EventsManager)
+//    *      - sendIformationToTheTeam()
+//    *      - assignToTheBA()
+//    *      - notifyWatchers()
+//    *      - notifyOwner()
+//    *
     @Override
     public void trigger(Task task) {
 

@@ -7,6 +7,10 @@ public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEve
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    * completed, not apporved and longer then one sprint
+//    *      - reminderToApprovers()
+//    *      - notifyOwner()
+//    *
 
     @Override
     public void trigger(Task task) {

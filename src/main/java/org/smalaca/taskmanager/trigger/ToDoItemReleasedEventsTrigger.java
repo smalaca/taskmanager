@@ -7,6 +7,12 @@ public class ToDoItemReleasedEventsTrigger implements CommunicationEventTrigger 
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    *
+//            * released
+//    *      - infoToWatchers()
+//    *      - infoToEveryoneInvolvedInProject()
+//    *      - notifyOwner()
+//    */
 
     @Override
     public void trigger(Task task) {

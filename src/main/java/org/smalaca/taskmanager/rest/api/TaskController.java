@@ -39,56 +39,6 @@ public class TaskController {
              * processor here as well. Based on state.
              */
             communicationEventsTriggerManager.triggerFor(task);
-
-/**
- * CHAIN OF RESP + DECORATOR - each step
- * is initialized
- *
- *      EVENTS (EventsManager)
- *      - sendInformationToTheProductOwner()
- *      - notifyWatchers()
- *
- *
- * is initialized and assigned to the team
- *
- *      EVENTS (EventsManager)
- *      - sendIformationToTheTeam()
- *      - assignToTheBA()
- *      - notifyWatchers()
- *
- * is defined
- *
- *      EVENTS (EventsManager)
- *      - setBAasAWatcher()
- *      - snnedInforrmationToTheTeam()
- *      - notifyWatchers()
- *
- * is in progress longer then one sprint
- *
- *      EVENTS (EventsManager)
- *      - warnProductOwner()
- *      - warnTheTeam()
- *      - warnWatchers()
- *
- * is in progress
- *      - sendIformationToTheTeam()
- *
- * completed, not apporved and longer then one sprint
- *      - reminderToApprovers()
- *
- * completed, not apporved
- *      - infoToApprovers()
- *
- *
- * completed, apporved
- *      - sendIformationToTheTeam()
- *      - sendInformationToTheProductOwner()
- *      - notifyWatchers()
- *
- * released
- *      - infoToWatchers()
- *      - infoToEveryoneInvolvedInProject()
- */
 /**
  * VISITOR
  * 1. info to team - instanceof because Epic will send to multiple

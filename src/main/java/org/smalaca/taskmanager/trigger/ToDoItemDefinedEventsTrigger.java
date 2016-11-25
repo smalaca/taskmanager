@@ -8,6 +8,14 @@ public class ToDoItemDefinedEventsTrigger implements CommunicationEventTrigger {
         return false;
     }
 
+//    * is defined
+//    *
+//            *      EVENTS (EventsManager)
+//    *      - setBAasAWatcher()
+//    *      - snnedInforrmationToTheTeam()
+//    *      - notifyWatchers()
+//    *      - notifyOwner()
+
     @Override
     public void trigger(Task task) {
 

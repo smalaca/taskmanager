@@ -8,6 +8,13 @@ public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigg
         return false;
     }
 
+//    * is initialized
+//    *
+//            *      EVENTS (EventsManager)
+//    *      - sendInformationToTheProductOwner()
+//    *      - notifyWatchers()
+//    *      - notifyOwner()
+//    *
     @Override
     public void trigger(Task task) {
 

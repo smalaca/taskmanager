@@ -7,6 +7,10 @@ public class ToDoItemNotApprovedEventsTrigger implements CommunicationEventTrigg
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    * completed, not apporved
+//    *      - infoToApprovers()
+//    *      - notifyOwner()
+//    *
 
     @Override
     public void trigger(Task task) {

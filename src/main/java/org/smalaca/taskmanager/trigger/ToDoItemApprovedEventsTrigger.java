@@ -7,6 +7,12 @@ public class ToDoItemApprovedEventsTrigger implements CommunicationEventTrigger 
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    *
+//            * completed, apporved
+//    *      - sendIformationToTheTeam()
+//    *      - sendInformationToTheProductOwner()
+//    *      - notifyWatchers()
+//    *      - notifyOwner()
 
     @Override
     public void trigger(Task task) {

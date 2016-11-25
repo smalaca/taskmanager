@@ -7,6 +7,14 @@ public class ToDoItemTooLongInProgressEventsTrigger implements CommunicationEven
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    *
+//            * is in progress longer then one sprint
+//    *
+//            *      EVENTS (EventsManager)
+//    *      - warnProductOwner()
+//    *      - warnTheTeam()
+//    *      - warnWatchers()
+//    *      - notifyOwner()
 
     @Override
     public void trigger(Task task) {

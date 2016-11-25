@@ -7,6 +7,11 @@ public class ToDoItemInProgressEventsTrigger implements CommunicationEventTrigge
     public boolean isApplicableFor(Task task) {
         return false;
     }
+//    *
+//            * is in progress
+//    *      - sendIformationToTheTeam()
+//    *      - notifyOwner()
+//    *
 
     @Override
     public void trigger(Task task) {
