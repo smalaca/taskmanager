@@ -4,4 +4,5 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="userRepository" class="org.smalaca.taskmanager.repository.InMemoryUserRepository"/>
+    <bean id="taskRepository" class="org.smalaca.taskmanager.repository.InMemoryTaskRepository"/>
 </beans>

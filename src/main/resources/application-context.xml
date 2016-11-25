@@ -5,4 +5,22 @@
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="in-memory-repositories.xml"/>
+
+    <bean id="communicationEventsTriggerManager" class="org.smalaca.taskmanager.trigger.CommunicationEventsTriggerManager">
+        <constructor-arg>
+            <list>
+                <!-- order of the elements in the list is significant -->
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemInitializedEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemAssignedEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemDefinedEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemTooLongInProgressEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemInProgressEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemNotApprovedTooLongEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemNotApprovedEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemApprovedEventsTrigger"/>
+                <bean class="org.smalaca.taskmanager.trigger.ToDoItemReleasedEventsTrigger"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
 </beans>
