@@ -1,5 +1,7 @@
 package org.smalaca.taskmanager.trigger;
 
+import org.smalaca.taskmanager.domain.Story;
+import org.smalaca.taskmanager.domain.Task;
 import org.smalaca.taskmanager.domain.Team;
 import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.domain.Watcher;
@@ -19,7 +21,9 @@ public class ToDoItemAssignedEventsTrigger implements CommunicationEventTrigger 
 
     @Override
     public boolean isApplicableFor(ToDoItem toDoItem) {
-        return TO_BE_DEFINED.equals(toDoItem.getStatus()) && toDoItem.isAssigned();
+        return TO_BE_DEFINED.equals(toDoItem.getStatus())
+                && (toDoItem instanceof Task || toDoItem instanceof Story)
+                && toDoItem.isAssigned();
     }
 
     @Override
