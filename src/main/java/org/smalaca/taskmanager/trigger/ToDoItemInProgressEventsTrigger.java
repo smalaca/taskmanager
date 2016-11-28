@@ -1,10 +1,10 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.ToDoItem;
 
 public class ToDoItemInProgressEventsTrigger implements CommunicationEventTrigger {
     @Override
-    public boolean isApplicableFor(Task task) {
+    public boolean isApplicableFor(ToDoItem toDoItem) {
         return false;
     }
 //    *
@@ -14,7 +14,7 @@ public class ToDoItemInProgressEventsTrigger implements CommunicationEventTrigge
 //    *
 
     @Override
-    public void trigger(Task task) {
+    public void trigger(ToDoItem toDoItem) {
 
     }
 }

@@ -1,9 +1,9 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.ToDoItem;
 
 public interface CommunicationEventTrigger {
-    boolean isApplicableFor(Task task);
+    boolean isApplicableFor(ToDoItem toDoItem);
 
-    void trigger(Task task);
+    void trigger(ToDoItem toDoItem);
 }

@@ -1,10 +1,10 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.ToDoItem;
 
 public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEventTrigger {
     @Override
-    public boolean isApplicableFor(Task task) {
+    public boolean isApplicableFor(ToDoItem toDoItem) {
         return false;
     }
 //    * completed, not apporved and longer then one sprint
@@ -13,7 +13,7 @@ public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEve
 //    *
 
     @Override
-    public void trigger(Task task) {
+    public void trigger(ToDoItem toDoItem) {
 
     }
 }

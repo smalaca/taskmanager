@@ -1,10 +1,10 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.ToDoItem;
 
 public class ToDoItemNotApprovedEventsTrigger implements CommunicationEventTrigger {
     @Override
-    public boolean isApplicableFor(Task task) {
+    public boolean isApplicableFor(ToDoItem toDoItem) {
         return false;
     }
 //    * completed, not apporved
@@ -13,7 +13,7 @@ public class ToDoItemNotApprovedEventsTrigger implements CommunicationEventTrigg
 //    *
 
     @Override
-    public void trigger(Task task) {
+    public void trigger(ToDoItem toDoItem) {
 
     }
 }

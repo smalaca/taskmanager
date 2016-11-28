@@ -1,22 +1,32 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.Status;
+import org.smalaca.taskmanager.domain.ToDoItem;
+import org.smalaca.taskmanager.domain.Watcher;
+import org.smalaca.taskmanager.service.CommunicationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigger {
-    @Override
-    public boolean isApplicableFor(Task task) {
-        return false;
+    private final CommunicationService communicationService;
+
+    @Autowired
+    public ToDoItemInitializedEventsTrigger(CommunicationService communicationService) {
+        this.communicationService = communicationService;
     }
 
-//    * is initialized
-//    *
-//            *      EVENTS (EventsManager)
-//    *      - sendInformationToTheProductOwner()
-//    *      - notifyWatchers()
-//    *      - notifyOwner()
-//    *
     @Override
-    public void trigger(Task task) {
+    public boolean isApplicableFor(ToDoItem toDoItem) {
+        return Status.TO_BE_DEFINED.equals(toDoItem.getStatus());
+    }
 
+    @Override
+    public void trigger(ToDoItem toDoItem) {
+        communicationService.notify(toDoItem, toDoItem.getProject().getProductOwner());
+
+        for (Watcher watcher : toDoItem.getWatchers()) {
+            communicationService.notify(toDoItem, watcher);
+        }
+
+        communicationService.notify(toDoItem, toDoItem.getOwner());
     }
 }

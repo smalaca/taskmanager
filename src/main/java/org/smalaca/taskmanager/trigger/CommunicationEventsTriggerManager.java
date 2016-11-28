@@ -1,6 +1,6 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Task;
+import org.smalaca.taskmanager.domain.ToDoItem;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ public class CommunicationEventsTriggerManager {
         this.processors = processors;
     }
 
-    public void triggerFor(Task task) {
+    public void triggerFor(ToDoItem toDoItem) {
         for (CommunicationEventTrigger processor : processors) {
-            if (processor.isApplicableFor(task)) {
-                processor.trigger(task);
+            if (processor.isApplicableFor(toDoItem)) {
+                processor.trigger(toDoItem);
             }
         }
     }
