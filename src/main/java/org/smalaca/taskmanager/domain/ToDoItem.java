@@ -10,4 +10,8 @@ public interface ToDoItem {
     List<Watcher> getWatchers();
 
     Owner getOwner();
+
+    boolean isAssigned();
+
+    Assignee getAssignee();
 }

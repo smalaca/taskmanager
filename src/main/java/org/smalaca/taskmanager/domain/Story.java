@@ -10,6 +10,7 @@ public class Story implements ToDoItem {
     private Project project;
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
+    private Assignee assignee;
 
     @Override
     public Status getStatus() {
@@ -41,5 +42,19 @@ public class Story implements ToDoItem {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public boolean isAssigned() {
+        return assignee != null;
+    }
+
+    public void assignTo(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
+    @Override
+    public Assignee getAssignee() {
+        return assignee;
     }
 }

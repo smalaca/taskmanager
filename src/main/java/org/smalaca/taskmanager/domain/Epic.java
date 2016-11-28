@@ -10,6 +10,7 @@ public class Epic implements ToDoItem {
     private Project project;
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
+    private Assignee assignee;
 
     @Override
     public Status getStatus() {
@@ -37,6 +38,20 @@ public class Epic implements ToDoItem {
     @Override
     public Owner getOwner() {
         return owner;
+    }
+
+    @Override
+    public boolean isAssigned() {
+        return assignee != null;
+    }
+
+    public void assignTo(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
+    @Override
+    public Assignee getAssignee() {
+        return assignee;
     }
 
     public void setOwner(Owner owner) {
