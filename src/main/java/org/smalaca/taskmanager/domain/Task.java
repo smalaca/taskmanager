@@ -14,6 +14,8 @@ public class Task implements ToDoItem {
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
     private Assignee assignee;
+    private Sprint assignementSprint;
+    private Sprint currentSprint;
 
     @Override
     public Status getStatus() {
@@ -68,8 +70,9 @@ public class Task implements ToDoItem {
         return assignee != null;
     }
 
-    public void assignTo(Assignee assignee) {
+    public void assignTo(Assignee assignee, Sprint sprint) {
         this.assignee = assignee;
+        this.assignementSprint = sprint;
     }
 
     @Override
@@ -85,5 +88,17 @@ public class Task implements ToDoItem {
         copy.definition = definition;
 
         return copy;
+    }
+
+    public Sprint getCurrentSprint() {
+        return currentSprint;
+    }
+
+    public void setCurrentSprint(Sprint currentSprint) {
+        this.currentSprint = currentSprint;
+    }
+
+    public Sprint getAssignementSprint() {
+        return assignementSprint;
     }
 }
