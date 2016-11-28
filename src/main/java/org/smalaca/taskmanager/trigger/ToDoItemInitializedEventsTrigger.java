@@ -1,10 +1,11 @@
 package org.smalaca.taskmanager.trigger;
 
-import org.smalaca.taskmanager.domain.Status;
 import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.domain.Watcher;
 import org.smalaca.taskmanager.service.CommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.smalaca.taskmanager.domain.Status.TO_BE_DEFINED;
 
 public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigger {
     private final CommunicationService communicationService;
@@ -16,7 +17,7 @@ public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigg
 
     @Override
     public boolean isApplicableFor(ToDoItem toDoItem) {
-        return Status.TO_BE_DEFINED.equals(toDoItem.getStatus());
+        return TO_BE_DEFINED.equals(toDoItem.getStatus());
     }
 
     @Override
