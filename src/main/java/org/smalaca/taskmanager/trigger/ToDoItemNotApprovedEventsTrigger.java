@@ -7,7 +7,7 @@ import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.service.CommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.smalaca.taskmanager.domain.Status.USER_ACCEPTANCE_TESTING;
+import static org.smalaca.taskmanager.domain.Status.DONE;
 
 public class ToDoItemNotApprovedEventsTrigger implements CommunicationEventTrigger {
     private final CommunicationService communicationService;
@@ -19,7 +19,7 @@ public class ToDoItemNotApprovedEventsTrigger implements CommunicationEventTrigg
 
     @Override
     public boolean isApplicableFor(ToDoItem toDoItem) {
-        return USER_ACCEPTANCE_TESTING.equals(toDoItem.getStatus())
+        return DONE.equals(toDoItem.getStatus())
                 && (toDoItem instanceof Task || toDoItem instanceof Story);
     }
 

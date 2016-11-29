@@ -5,4 +5,5 @@
 
     <bean id="userRepository" class="org.smalaca.taskmanager.repository.InMemoryUserRepository"/>
     <bean id="taskRepository" class="org.smalaca.taskmanager.repository.InMemoryTaskRepository"/>
+    <bean id="storyRepository" class="org.smalaca.taskmanager.repository.InMemoryStoryRepository"/>
 </beans>

@@ -4,7 +4,7 @@ public enum Status {
     TO_BE_DEFINED,
     DEFINED,
     IN_PROGRESS,
-    USER_ACCEPTANCE_TESTING,
+    DONE,
     APPROVED,
     RELEASED
 }

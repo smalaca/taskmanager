@@ -13,6 +13,7 @@ public class Story implements ToDoItem {
     private Assignee assignee;
     private List<Stakeholder> stakeholders = new ArrayList<>();
     private List<Task> tasks = new ArrayList<>();
+    private String id;
 
     @Override
     public Status getStatus() {
@@ -77,4 +78,25 @@ public class Story implements ToDoItem {
         tasks.add(task);
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Story copy() {
+        Story copy = new Story();
+        copy.status = status;
+        copy.project = project;
+        copy.watchers = watchers;
+        copy.owner = owner;
+        copy.assignee = assignee;
+        copy.stakeholders = stakeholders;
+        copy.tasks = tasks;
+        copy.id = id;
+        return null;
+    }
 }

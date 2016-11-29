@@ -7,6 +7,8 @@
     <import resource="in-memory-repositories.xml"/>
     <import resource="fake-services.xml"/>
 
+    <bean id="processorsManager" class="org.smalaca.taskmanager.processor.ToDoItemProcessor"/>
+
     <bean id="communicationEventsTriggerManager" class="org.smalaca.taskmanager.trigger.CommunicationEventsTriggerManager">
         <constructor-arg>
             <list>

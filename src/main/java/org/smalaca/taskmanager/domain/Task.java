@@ -19,6 +19,7 @@ public class Task implements ToDoItem {
     private Sprint currentSprint;
     private Date resolutionDate;
     private List<Stakeholder> stakeholders = new ArrayList<>();
+    private String storyId;
 
     @Override
     public Status getStatus() {
@@ -39,6 +40,11 @@ public class Task implements ToDoItem {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -120,5 +126,17 @@ public class Task implements ToDoItem {
 
     public Date getResolutionDate() {
         return resolutionDate;
+    }
+
+    public String getStoryId() {
+        return storyId;
+    }
+
+    public void setStoryId(String storyId) {
+        this.storyId = storyId;
+    }
+
+    public boolean isSubtask() {
+        return storyId != null;
     }
 }

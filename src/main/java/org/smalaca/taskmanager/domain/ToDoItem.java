@@ -16,4 +16,6 @@ public interface ToDoItem {
     Assignee getAssignee();
 
     List<Stakeholder> getStakeholders();
+
+    String getId();
 }

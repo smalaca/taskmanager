@@ -10,15 +10,17 @@ public class InMemoryTaskRepository implements TaskRepository {
     private final Map<String, Task> tasks = new HashMap<>();
 
     public InMemoryTaskRepository() {
-        tasks.put("1", aUser("1", "Coffee break"));
-        tasks.put("2", aUser("2", "Meeting"));
-        tasks.put("3", aUser("3", "Catch up"));
-        tasks.put("4", aUser("4", "Status  summary"));
-        tasks.put("5", aUser("5", "Stand up"));
+        tasks.put("1", aTask("1", "Coffee break"));
+        tasks.put("2", aTask("2", "Meeting"));
+        tasks.put("3", aTask("3", "Catch up"));
+        tasks.put("4", aTask("4", "Status  summary"));
+        tasks.put("5", aTask("5", "Stand up"));
     }
 
-    private Task aUser(String id, String name) {
+    private Task aTask(String id, String name) {
         Task task = new Task();
+        task.setId(id);
+        task.setId(name);
 
         return task;
     }

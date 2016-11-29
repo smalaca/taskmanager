@@ -4,5 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="communicationService" class="org.smalaca.taskmanager.service.FakeCommunicationService"/>
+    <bean id="communicationService" class="org.smalaca.taskmanager.service.CommunicationService"/>
+    <bean id="storyService" class="org.smalaca.taskmanager.service.FakeStoryService"/>
+    <bean id="projectBacklogService" class="org.smalaca.taskmanager.service.FakeProjectBacklogService"/>
+    <bean id="sprintBacklogService" class="org.smalaca.taskmanager.service.FakeSprintBacklogService"/>
+
+    <bean id="eventPublisher" class="org.smalaca.taskmanager.event.FakeEventPublisher"/>
 </beans>

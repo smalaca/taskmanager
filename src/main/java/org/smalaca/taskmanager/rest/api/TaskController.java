@@ -4,6 +4,7 @@ import org.smalaca.taskmanager.domain.Definition;
 import org.smalaca.taskmanager.domain.Task;
 import org.smalaca.taskmanager.dto.DefinitionDto;
 import org.smalaca.taskmanager.dto.ToDoItemDto;
+import org.smalaca.taskmanager.processor.ToDoItemProcessor;
 import org.smalaca.taskmanager.trigger.CommunicationEventsTriggerManager;
 import org.smalaca.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,14 @@ import static org.smalaca.taskmanager.domain.Status.DEFINED;
 public class TaskController {
     private final TaskRepository taskRepository;
     private final CommunicationEventsTriggerManager communicationEventsTriggerManager;
+    private final ToDoItemProcessor toDoItemProcessor;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, CommunicationEventsTriggerManager communicationEventsTriggerManager) {
+    public TaskController(
+            TaskRepository taskRepository, CommunicationEventsTriggerManager communicationEventsTriggerManager, ToDoItemProcessor toDoItemProcessor) {
         this.taskRepository = taskRepository;
         this.communicationEventsTriggerManager = communicationEventsTriggerManager;
+        this.toDoItemProcessor = toDoItemProcessor;
     }
 
     @RequestMapping(value = "/{taskId}/defined", method = RequestMethod.PUT)
@@ -35,23 +39,8 @@ public class TaskController {
             Task task = taskRepository.findById(taskId);
             task.setDefinition(new Definition(definitionDto.getBody()));
             task.setStatus(DEFINED);
-            /**
-             * processor here as well. Based on state.
-             */
+            toDoItemProcessor.processFor(task);
             communicationEventsTriggerManager.triggerFor(task);
-/**
- * VISITOR
- * 1. info to team - instanceof because Epic will send to multiple
- * 2. send to BA - same as above in case of Epic, no info in case of Task
- * 3. send to Watchers - only for story and epic
- * 4. notifu ProductOwner - in case of Epic and Story
- */
-
-/**
- * Strategy? - calculating estimates - automatic, lucky guess or manual?
- * State? - after changing a state - processor
- */
-
 
             return new ResponseEntity<>(HttpStatus.OK);
         }

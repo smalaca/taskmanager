@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import static org.smalaca.taskmanager.domain.Status.USER_ACCEPTANCE_TESTING;
+import static org.smalaca.taskmanager.domain.Status.DONE;
 
 public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEventTrigger {
     private final CommunicationService communicationService;
@@ -22,7 +22,7 @@ public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEve
 
     @Override
     public boolean isApplicableFor(ToDoItem toDoItem) {
-        return USER_ACCEPTANCE_TESTING.equals(toDoItem.getStatus())
+        return DONE.equals(toDoItem.getStatus())
                 && (toDoItem instanceof Task || toDoItem instanceof Story)
                 && isWaitsForApprovalTooLong((Task) toDoItem);
     }
