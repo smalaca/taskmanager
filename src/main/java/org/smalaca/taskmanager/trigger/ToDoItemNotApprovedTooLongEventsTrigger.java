@@ -4,7 +4,6 @@ import org.smalaca.taskmanager.domain.Stakeholder;
 import org.smalaca.taskmanager.domain.Story;
 import org.smalaca.taskmanager.domain.Task;
 import org.smalaca.taskmanager.domain.ToDoItem;
-import org.smalaca.taskmanager.predicate.IsWaitingForApprovalTooLongPredicate;
 import org.smalaca.taskmanager.service.CommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
