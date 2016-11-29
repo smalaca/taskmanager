@@ -6,6 +6,18 @@ public class User {
     private String lastName;
     private String login;
     private String password;
+    private PhoneNumber phoneNumber;
+    private EmailAddress emailAddress;
+    private TeamRole teamRole;
+
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public EmailAddress getEmailAddress() {
+        return emailAddress;
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -55,5 +67,9 @@ public class User {
         copy.login = login;
         copy.password = password;
         return copy;
+    }
+
+    public TeamRole getTeamRole() {
+        return teamRole;
     }
 }
