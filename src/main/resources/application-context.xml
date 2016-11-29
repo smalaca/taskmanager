@@ -8,6 +8,7 @@
     <import resource="fake-services.xml"/>
 
     <bean id="processorsManager" class="org.smalaca.taskmanager.processor.ToDoItemProcessor"/>
+    <bean id="statusValidator" class="org.smalaca.taskmanager.validation.StatusValidator"/>
 
     <bean id="communicationEventsTriggerManager" class="org.smalaca.taskmanager.trigger.CommunicationEventsTriggerManager">
         <constructor-arg>
