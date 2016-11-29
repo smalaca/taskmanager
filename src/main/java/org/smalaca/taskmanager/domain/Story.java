@@ -11,6 +11,8 @@ public class Story implements ToDoItem {
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
     private Assignee assignee;
+    private List<Stakeholder> stakeholders = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     @Override
     public Status getStatus() {
@@ -57,4 +59,22 @@ public class Story implements ToDoItem {
     public Assignee getAssignee() {
         return assignee;
     }
+
+    @Override
+    public List<Stakeholder> getStakeholders() {
+        return stakeholders;
+    }
+
+    public void add(Stakeholder stakeholder) {
+        stakeholders.add(stakeholder);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void add(Task task) {
+        tasks.add(task);
+    }
+
 }

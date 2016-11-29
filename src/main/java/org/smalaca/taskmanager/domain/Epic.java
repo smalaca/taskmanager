@@ -11,6 +11,8 @@ public class Epic implements ToDoItem {
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
     private Assignee assignee;
+    private List<Stakeholder> stakeholders = new ArrayList<>();
+    private List<Story> stories = new ArrayList<>();
 
     @Override
     public Status getStatus() {
@@ -56,5 +58,22 @@ public class Epic implements ToDoItem {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public List<Stakeholder> getStakeholders() {
+        return stakeholders;
+    }
+
+    public void add(Stakeholder stakeholder) {
+        stakeholders.add(stakeholder);
+    }
+
+    public List<Story> getStories() {
+        return stories;
+    }
+
+    public void add(Story story) {
+        stories.add(story);
     }
 }

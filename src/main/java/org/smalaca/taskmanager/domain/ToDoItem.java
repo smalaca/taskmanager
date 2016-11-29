@@ -14,4 +14,6 @@ public interface ToDoItem {
     boolean isAssigned();
 
     Assignee getAssignee();
+
+    List<Stakeholder> getStakeholders();
 }

@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.smalaca.taskmanager.domain.Status.TO_BE_DEFINED;
@@ -16,6 +17,8 @@ public class Task implements ToDoItem {
     private Assignee assignee;
     private Sprint assignementSprint;
     private Sprint currentSprint;
+    private Date resolutionDate;
+    private List<Stakeholder> stakeholders = new ArrayList<>();
 
     @Override
     public Status getStatus() {
@@ -80,6 +83,15 @@ public class Task implements ToDoItem {
         return assignee;
     }
 
+    @Override
+    public List<Stakeholder> getStakeholders() {
+        return stakeholders;
+    }
+
+    public void add(Stakeholder stakeholder) {
+        stakeholders.add(stakeholder);
+    }
+
     public Task copy() {
         Task copy = new Task();
         copy.status = status;
@@ -100,5 +112,13 @@ public class Task implements ToDoItem {
 
     public Sprint getAssignementSprint() {
         return assignementSprint;
+    }
+
+    public void resolved(Date date) {
+        resolutionDate = date;
+    }
+
+    public Date getResolutionDate() {
+        return resolutionDate;
     }
 }
