@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.trigger;
 
 import org.smalaca.taskmanager.domain.Stakeholder;
+import org.smalaca.taskmanager.domain.Story;
 import org.smalaca.taskmanager.domain.Task;
 import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.service.CommunicationService;
@@ -22,7 +23,7 @@ public class ToDoItemNotApprovedTooLongEventsTrigger implements CommunicationEve
     @Override
     public boolean isApplicableFor(ToDoItem toDoItem) {
         return USER_ACCEPTANCE_TESTING.equals(toDoItem.getStatus())
-                && toDoItem instanceof Task
+                && (toDoItem instanceof Task || toDoItem instanceof Story)
                 && isWaitsForApprovalTooLong((Task) toDoItem);
     }
 
