@@ -10,7 +10,7 @@ public class Task implements ToDoItem {
     private Status status = TO_BE_DEFINED;
     private String id;
     private String name;
-    private Definition definition = new Definition("");
+    private Definition definition;
     private Project project;
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
@@ -138,5 +138,27 @@ public class Task implements ToDoItem {
 
     public boolean isSubtask() {
         return storyId != null;
+    }
+
+    public void start() {
+        switch (getStatus()) {
+            case TO_BE_DEFINED:
+                definition = new Definition("");
+                currentSprint = assignementSprint;
+                break;
+
+            case DEFINED:
+                assignee = Assignee.from(owner);
+                break;
+
+            case DONE:
+                resolutionDate = new Date();
+                assignee = Assignee.from(owner);
+                break;
+
+            case APPROVED:
+                assignee = Assignee.from(project.getProductOwner());
+                break;
+        }
     }
 }

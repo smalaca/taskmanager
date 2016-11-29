@@ -7,7 +7,7 @@ import org.smalaca.taskmanager.dto.ToDoItemDto;
 import org.smalaca.taskmanager.processor.ToDoItemProcessor;
 import org.smalaca.taskmanager.trigger.CommunicationEventsTriggerManager;
 import org.smalaca.taskmanager.repository.TaskRepository;
-import org.smalaca.taskmanager.validation.StatusValidator;
+import org.smalaca.taskmanager.validation.TaskStatusValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,16 +25,16 @@ public class TaskController {
     private final TaskRepository taskRepository;
     private final CommunicationEventsTriggerManager communicationEventsTriggerManager;
     private final ToDoItemProcessor toDoItemProcessor;
-    private final StatusValidator statusValidator;
+    private final TaskStatusValidator taskStatusValidator;
 
     @Autowired
     public TaskController(
             TaskRepository taskRepository, CommunicationEventsTriggerManager communicationEventsTriggerManager,
-            ToDoItemProcessor toDoItemProcessor, StatusValidator statusValidator) {
+            ToDoItemProcessor toDoItemProcessor, TaskStatusValidator taskStatusValidator) {
         this.taskRepository = taskRepository;
         this.communicationEventsTriggerManager = communicationEventsTriggerManager;
         this.toDoItemProcessor = toDoItemProcessor;
-        this.statusValidator = statusValidator;
+        this.taskStatusValidator = taskStatusValidator;
     }
 
     @RequestMapping(value = "/{taskId}/defined", method = RequestMethod.PUT)
@@ -42,9 +42,11 @@ public class TaskController {
         if (taskRepository.exists(taskId)) {
             Task task = taskRepository.findById(taskId);
 
-            if (statusValidator.isPossibleToMove(task, DEFINED)) {
+            if (taskStatusValidator.isPossibleToMove(task, DEFINED)) {
                 task.setDefinition(new Definition(definitionDto.getBody()));
                 task.setStatus(DEFINED);
+                task.start();
+                taskRepository.update(task);
                 toDoItemProcessor.processFor(task);
                 communicationEventsTriggerManager.triggerFor(task);
             }

@@ -10,7 +10,7 @@ import static org.smalaca.taskmanager.domain.Status.IN_PROGRESS;
 import static org.smalaca.taskmanager.domain.Status.RELEASED;
 import static org.smalaca.taskmanager.domain.Status.TO_BE_DEFINED;
 
-public class StatusValidator {
+public class TaskStatusValidator {
     public boolean isPossibleToMove(Task task, Status status) {
         Status currentStatus = task.getStatus();
 

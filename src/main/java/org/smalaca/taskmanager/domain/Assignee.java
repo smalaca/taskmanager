@@ -6,4 +6,12 @@ public class Assignee {
     public Team getTeam() {
         return team;
     }
+
+    public static Assignee from(Owner owner) {
+        return null;
+    }
+
+    public static Assignee from(ProductOwner productOwner) {
+        return null;
+    }
 }

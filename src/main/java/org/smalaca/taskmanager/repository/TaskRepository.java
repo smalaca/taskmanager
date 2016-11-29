@@ -6,4 +6,6 @@ public interface TaskRepository {
     boolean exists(String id);
 
     Task findById(String id);
+
+    void update(Task task);
 }

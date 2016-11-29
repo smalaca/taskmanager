@@ -38,4 +38,13 @@ public class InMemoryTaskRepository implements TaskRepository {
 
         throw new TaskNotFoundException("Task with id: " + id + " does not exists.");
     }
+
+    @Override
+    public void update(Task task) {
+        if (tasks.containsKey(task.getId())) {
+            tasks.replace(task.getId(), task);
+        } else {
+            throw new TaskNotFoundException("Task with id: " + task.getId() + " does not exist.");
+        }
+    }
 }
