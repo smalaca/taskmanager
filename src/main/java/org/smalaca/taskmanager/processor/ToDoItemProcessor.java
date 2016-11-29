@@ -19,10 +19,6 @@ import org.smalaca.taskmanager.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.smalaca.taskmanager.domain.Status.DONE;
-import static org.smalaca.taskmanager.event.EpicReadyToPrioritize.anEpicReadyToPrioritize;
-import static org.smalaca.taskmanager.event.StoryApprovedEvent.aStoryApprovedEventFor;
-import static org.smalaca.taskmanager.event.StoryDoneEvent.aStoryDoneEventFor;
-import static org.smalaca.taskmanager.event.TaskApprovedEvent.aTaskApprovedEvent;
 
 public class ToDoItemProcessor {
     private final StoryRepository storyRepository;
@@ -82,7 +78,7 @@ public class ToDoItemProcessor {
                 if (toDoItem instanceof Epic) {
                     Epic epic = (Epic) toDoItem;
                     projectBacklogService.putOnTop(epic);
-                    EpicReadyToPrioritize event = anEpicReadyToPrioritize(epic);
+                    EpicReadyToPrioritize event = EpicReadyToPrioritize.anEpicReadyToPrioritize(epic);
                     eventPublisher.publish(event);
                     communicationService.notify(toDoItem, toDoItem.getProject().getProductOwner());
                 } else {
@@ -98,7 +94,7 @@ public class ToDoItemProcessor {
             Story story = storyRepository.findById(task.getStoryId());
             storyService.updateProgressOf(story, task);
             if (DONE.equals(story.getStatus())) {
-                StoryDoneEvent event = aStoryDoneEventFor(story);
+                StoryDoneEvent event = StoryDoneEvent.aStoryDoneEventFor(story);
                 eventPublisher.publish(event);
             }
         }
@@ -107,13 +103,13 @@ public class ToDoItemProcessor {
     private void processApproved(ToDoItem toDoItem) {
         if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
-            StoryApprovedEvent event = aStoryApprovedEventFor(story);
+            StoryApprovedEvent event = StoryApprovedEvent.aStoryApprovedEventFor(story);
             eventPublisher.publish(event);
         } else if (toDoItem instanceof Task) {
             Task task = (Task) toDoItem;
 
             if (task.isSubtask()) {
-                TaskApprovedEvent event = aTaskApprovedEvent(task);
+                TaskApprovedEvent event = TaskApprovedEvent.aTaskApprovedEvent(task);
                 eventPublisher.publish(event);
             } else {
                 storyService.attachPartialApprovalFor(task.getStoryId(), task.getId());
