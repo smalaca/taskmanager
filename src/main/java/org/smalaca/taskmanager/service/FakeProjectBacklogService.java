@@ -14,4 +14,9 @@ public class FakeProjectBacklogService implements ProjectBacklogService {
     public void putOnTop(Epic epic) {
 
     }
+
+    @Override
+    public String linkFor(String toDoItemId) {
+        return null;
+    }
 }

@@ -4,11 +4,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="projectBacklogService" class="org.smalaca.taskmanager.service.FakeProjectBacklogService"/>
     <bean id="communicationService" class="org.smalaca.taskmanager.service.CommunicationService">
         <constructor-arg value="NULL_TYPE"/>
+        <constructor-arg ref="projectBacklogService"/>
+        <constructor-arg>
+            <bean class="org.smalaca.taskmanager.service.devnull.FakeDirectory"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.smalaca.taskmanager.service.chat.FakeChat"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.smalaca.taskmanager.service.sms.FakeSmsCommunicator"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.smalaca.taskmanager.service.mail.FakeMailClient"/>
+        </constructor-arg>
     </bean>
     <bean id="storyService" class="org.smalaca.taskmanager.service.FakeStoryService"/>
-    <bean id="projectBacklogService" class="org.smalaca.taskmanager.service.FakeProjectBacklogService"/>
     <bean id="sprintBacklogService" class="org.smalaca.taskmanager.service.FakeSprintBacklogService"/>
 
     <bean id="eventPublisher" class="org.smalaca.taskmanager.event.FakeEventPublisher"/>

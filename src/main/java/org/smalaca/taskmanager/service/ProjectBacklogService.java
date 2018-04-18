@@ -8,4 +8,6 @@ public interface ProjectBacklogService {
     void moveToReadyForDevelopment(Story story, Project project);
 
     void putOnTop(Epic epic);
+
+    String linkFor(String toDoItemId);
 }
