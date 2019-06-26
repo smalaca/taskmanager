@@ -6,5 +6,6 @@ jdk:
 script:
   - mvn -Pstatic-analysis clean compile
   - mvn -Pruntime-analysis verify
+  - mvn -Pmutation-tests org.pitest:pitest-maven:scmMutationCoverage
   - mvn sonar:sonar -Dsonar.projectKey=smalaca_taskmanager -Dsonar.organization=smalaca-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=05e849d6ddff343b52ef82d403263027890b161d -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco/jacoco-ut/jacoco.xml -Dsonar.junit.reportPaths=target/surefire-reports
   - mvn -Psystem verify
