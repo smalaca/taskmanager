@@ -120,7 +120,7 @@
     <url>https://github.com/smalaca/taskmanager</url>
     <connection>scm:git:https://github.com/smalaca/taskmanager.git</connection>
     <developerConnection>scm:git:https://github.com/smalaca/taskmanager.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>HEAD~1</tag>
   </scm>
 
   <profiles>

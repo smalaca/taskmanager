@@ -39,6 +39,10 @@ public class User {
         return login;
     }
 
+    public String getLogin2() {
+        return login;
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }
