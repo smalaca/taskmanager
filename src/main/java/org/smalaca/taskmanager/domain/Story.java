@@ -8,6 +8,7 @@ import static org.smalaca.taskmanager.domain.Status.TO_BE_DEFINED;
 public class Story implements ToDoItem {
     private Status status = TO_BE_DEFINED;
     private Project project;
+    private Epic epic;
     private List<Watcher> watchers = new ArrayList<>();
     private Owner owner;
     private Assignee assignee;
@@ -83,5 +84,13 @@ public class Story implements ToDoItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Epic getEpic() {
+        return epic;
+    }
+
+    public void setEpic(Epic epic) {
+        this.epic = epic;
     }
 }
