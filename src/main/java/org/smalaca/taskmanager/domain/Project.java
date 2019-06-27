@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project {
+    private String id;
     private String name;
     private ProductOwner productOwner;
     private List<Team> teams = new ArrayList<>();
@@ -23,5 +24,13 @@ public class Project {
 
     public List<Team> getTeams() {
         return teams;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
