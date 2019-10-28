@@ -24,7 +24,7 @@
     <mockito.version>1.10.19</mockito.version>
     <failsafe.and.surefire.version>2.16</failsafe.and.surefire.version>
     <checkstyle.plugin.version>2.15</checkstyle.plugin.version>
-    <pmd.plugin.version>3.4</pmd.plugin.version>
+    <pmd.plugin.version>3.12.0</pmd.plugin.version>
     <findbugs.plugin.version>3.0.1</findbugs.plugin.version>
     <jacoco.version>0.7.4.201502262128</jacoco.version>
     <javancss.version>2.1</javancss.version>
@@ -283,6 +283,7 @@
             </executions>
             <configuration>
               <failOnViolation>false</failOnViolation>
+              <targetJdk>9</targetJdk>
             </configuration>
           </plugin>
 
