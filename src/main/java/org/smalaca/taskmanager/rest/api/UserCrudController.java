@@ -35,12 +35,7 @@ public class UserCrudController {
         List<UserDto> usersDtos = new ArrayList<>();
 
         for (User user : userRepository.findAll()) {
-            UserDto userDto = new UserDto();
-            userDto.setFirstName(user.getFirstName());
-            userDto.setLastName(user.getLastName());
-            userDto.setLogin(user.getLogin());
-            userDto.setPassword(user.getPassword());
-            userDto.setId(user.getId());
+            UserDto userDto = user.mapUserToDTO();
 
             usersDtos.add(userDto);
         }
@@ -69,10 +64,9 @@ public class UserCrudController {
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
         // data validation
 
-        try {
-            userRepository.findByName(userDto.getFirstName(), userDto.getLastName());
+        if(exists(userDto)){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } catch (UserNotFoundException exception) {
+        } else {
             String identifier = UUID.randomUUID().toString();
             User user = new User();
             user.setFirstName(userDto.getFirstName());
@@ -87,6 +81,10 @@ public class UserCrudController {
             headers.setLocation(uriComponentsBuilder.path("/user/{id}").buildAndExpand(identifier).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
+    }
+
+    private boolean exists(UserDto userDto) {
+        return userRepository.exists(userDto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

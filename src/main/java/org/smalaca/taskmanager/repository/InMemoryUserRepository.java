@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.repository;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.dto.UserDto;
 import org.smalaca.taskmanager.exception.UserAlreadyExistsExcetion;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 
@@ -74,6 +75,16 @@ class InMemoryUserRepository implements UserRepository {
             users.put(user.getId(), user);
         } else {
             throw new UserAlreadyExistsExcetion("User with given id already exists.");
+        }
+    }
+
+    @Override
+    public boolean exists(UserDto userDto) {
+        try{
+            findByName(userDto.getFirstName(), userDto.getLastName());
+            return true;
+        } catch (UserNotFoundException exception) {
+            return false;
         }
     }
 

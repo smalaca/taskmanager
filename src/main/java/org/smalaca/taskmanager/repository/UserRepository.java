@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.repository;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.dto.UserDto;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface UserRepository {
     void add(User user);
 
     void update(User user);
+
+    boolean exists(UserDto userDto);
 }

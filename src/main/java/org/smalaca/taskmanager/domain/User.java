@@ -1,5 +1,7 @@
 package org.smalaca.taskmanager.domain;
 
+import org.smalaca.taskmanager.dto.UserDto;
+
 public class User {
     private String id;
     private String firstName;
@@ -71,5 +73,15 @@ public class User {
 
     public TeamRole getTeamRole() {
         return teamRole;
+    }
+
+    public UserDto mapUserToDTO() {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(firstName);
+        userDto.setLastName(lastName);
+        userDto.setLogin(login);
+        userDto.setPassword(password);
+        userDto.setId(id);
+        return userDto;
     }
 }
