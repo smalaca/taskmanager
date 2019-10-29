@@ -35,98 +35,24 @@ public class ToDoItemProcessor {
     public void processFor(ToDoItem toDoItem) {
         switch(toDoItem.getStatus()) {
             case DEFINED:
-                processDefined(toDoItem);
+                new ToDoItemDefined(toDoItemProcessorFacade).process(toDoItem);
                 break;
 
             case IN_PROGRESS:
-                processInProgress(toDoItem);
+                new ToDoItemInProgress(toDoItemProcessorFacade).process(toDoItem);
                 break;
 
             case DONE:
-                processDone(toDoItem);
+                new ToDoItemDone(toDoItemProcessorFacade).process(toDoItem);
                 break;
 
             case APPROVED:
-                processApproved(toDoItem);
+                new ToDoItemApproved(toDoItemProcessorFacade).process(toDoItem);
                 break;
 
             case RELEASED:
-                processReleased(toDoItem);
+                new ToDoItemReleased(toDoItemProcessorFacade).process(toDoItem);
                 break;
         }
-    }
-
-    private void processDefined(ToDoItem toDoItem) {
-        if (toDoItem instanceof Story) {
-            Story story = (Story) toDoItem;
-            if (story.getTasks().isEmpty()) {
-                toDoItemProcessorFacade.moveToReadyForDevelopment(story, story.getProject());
-            } else {
-                if (!story.isAssigned()) {
-                    toDoItemProcessorFacade.notifyTeamsAbout(story, story.getProject());
-                }
-            }
-        } else {
-            if (toDoItem instanceof Task) {
-                Task task = (Task) toDoItem;
-                toDoItemProcessorFacade.moveToReadyForDevelopment(task, task.getCurrentSprint());
-            } else {
-                if (toDoItem instanceof Epic) {
-                    Epic epic = (Epic) toDoItem;
-                    toDoItemProcessorFacade.putOnTop(epic);
-                    EpicReadyToPrioritize event = EpicReadyToPrioritize.anEpicReadyToPrioritize(epic);
-                    toDoItemProcessorFacade.publish(event);
-                    toDoItemProcessorFacade.notify(toDoItem, toDoItem.getProject().getProductOwner());
-                } else {
-                    throw new UnsupportedToDoItemType();
-                }
-            }
-        }
-    }
-
-    private void processInProgress(ToDoItem toDoItem) {
-        if (toDoItem instanceof Task) {
-            Task task = (Task) toDoItem;
-            Story story = toDoItemProcessorFacade.findById(task.getStoryId());
-            toDoItemProcessorFacade.updateProgressOf(story, task);
-        }
-    }
-
-    private void processDone(ToDoItem toDoItem) {
-        if (toDoItem instanceof Task) {
-            Task task = (Task) toDoItem;
-            Story story = toDoItemProcessorFacade.findById(task.getStoryId());
-            toDoItemProcessorFacade.updateProgressOf(story, task);
-            if (DONE.equals(story.getStatus())) {
-                StoryDoneEvent event = StoryDoneEvent.aStoryDoneEventFor(story);
-                toDoItemProcessorFacade.publish(event);
-            }
-        } else if (toDoItem instanceof Story) {
-            Story story = (Story) toDoItem;
-            StoryDoneEvent event = StoryDoneEvent.aStoryDoneEventFor(story);
-            toDoItemProcessorFacade.publish(event);
-        }
-    }
-
-    private void processApproved(ToDoItem toDoItem) {
-        if (toDoItem instanceof Story) {
-            Story story = (Story) toDoItem;
-            StoryApprovedEvent event = StoryApprovedEvent.aStoryApprovedEventFor(story);
-            toDoItemProcessorFacade.publish(event);
-        } else if (toDoItem instanceof Task) {
-            Task task = (Task) toDoItem;
-
-            if (task.isSubtask()) {
-                TaskApprovedEvent event = TaskApprovedEvent.aTaskApprovedEvent(task);
-                toDoItemProcessorFacade.publish(event);
-            } else {
-                toDoItemProcessorFacade.attachPartialApprovalFor(task.getStoryId(), task.getId());
-            }
-        }
-    }
-
-    private void processReleased(ToDoItem toDoItem) {
-        ToDoItemReleasedEvent event = ToDoItemReleasedEvent.aToDoItemReleasedEvent(toDoItem);
-        toDoItemProcessorFacade.publish(event);
     }
 }
