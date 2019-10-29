@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.smalaca.taskmanager.domain.Status.TO_BE_DEFINED;
 
-public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigger {
+public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigger, CommunicationStep {
     private final CommunicationService communicationService;
 
     @Autowired
@@ -22,12 +22,19 @@ public class ToDoItemInitializedEventsTrigger implements CommunicationEventTrigg
 
     @Override
     public void trigger(ToDoItem toDoItem) {
-        communicationService.notify(toDoItem, toDoItem.getProject().getProductOwner());
+        communicationService.notify(toDoItem, toDoItem.getProductOwner());
 
         for (Watcher watcher : toDoItem.getWatchers()) {
             communicationService.notify(toDoItem, watcher);
         }
 
         communicationService.notify(toDoItem, toDoItem.getOwner());
+    }
+
+    @Override
+    public void process(ToDoItem toDoItem) {
+        if (isApplicableFor(toDoItem)) {
+            trigger(toDoItem);
+        }
     }
 }
