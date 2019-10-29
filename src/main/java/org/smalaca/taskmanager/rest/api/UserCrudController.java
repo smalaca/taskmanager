@@ -69,7 +69,8 @@ public class UserCrudController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
 
-            User user = new UserBuilder().withName(userDto.getFirstName(), userDto.getLastName())
+            User user = new UserBuilder()
+                    .withName(userDto.getFirstName(), userDto.getLastName())
                     .withCredentials(userDto.getLogin(), userDto.getPassword())
                     .build();
 

@@ -11,8 +11,7 @@ public class UserBuilder {
 
 
     public User build() {
-        String identifier = UUID.randomUUID().toString();
-        return new User(firstName, lastName, login, password, identifier);
+        return new User(firstName, lastName, login, password, IdentifierFactory.create());
     }
 
     public UserBuilder withName(String firstName, String lastName) {
