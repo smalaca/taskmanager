@@ -12,6 +12,19 @@ public class User {
     private EmailAddress emailAddress;
     private TeamRole teamRole;
 
+    public User(String firstName, String lastName, String login, String password, String id) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.id = id;
+    }
+
+    public User() {
+
+    }
+
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }

@@ -11,7 +11,7 @@
   <url>letstalkaboutjava.blogspot.com</url>
 
   <properties>
-    <java.version>1.9</java.version>
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.directory>target</project.build.directory>
     <project.config.directory>config</project.config.directory>
@@ -283,7 +283,6 @@
             </executions>
             <configuration>
               <failOnViolation>false</failOnViolation>
-              <targetJdk>9</targetJdk>
             </configuration>
           </plugin>
 

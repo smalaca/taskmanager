@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.rest.api;
 
 import org.smalaca.taskmanager.domain.User;
+import org.smalaca.taskmanager.domain.UserBuilder;
 import org.smalaca.taskmanager.dto.UserDto;
 import org.smalaca.taskmanager.exception.UserNotFoundException;
 import org.smalaca.taskmanager.repository.UserRepository;
@@ -67,18 +68,15 @@ public class UserCrudController {
         if(exists(userDto)){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
-            String identifier = UUID.randomUUID().toString();
-            User user = new User();
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setLogin(userDto.getLogin());
-            user.setPassword(userDto.getPassword());
-            user.setId(identifier);
+
+            User user = new UserBuilder().withName(userDto.getFirstName(), userDto.getLastName())
+                    .withCredentials(userDto.getLogin(), userDto.getPassword())
+                    .build();
 
             userRepository.add(user);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/user/{id}").buildAndExpand(identifier).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
     }
