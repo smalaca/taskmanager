@@ -21,23 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.smalaca.taskmanager.domain.Status.DONE;
 
 public class ToDoItemProcessor {
-    private final StoryRepository storyRepository;
-    private final StoryService storyService;
-    private final EventPublisher eventPublisher;
-    private final ProjectBacklogService projectBacklogService;
-    private final CommunicationService communicationService;
-    private final SprintBacklogService sprintBacklogService;
+
+    private final ToDoItemProcessorFacade toDoItemProcessorFacade;
 
     @Autowired
     public ToDoItemProcessor(
             StoryRepository storyRepository, StoryService storyService, EventPublisher eventPublisher,
             ProjectBacklogService projectBacklogService, CommunicationService communicationService, SprintBacklogService sprintBacklogService) {
-        this.storyRepository = storyRepository;
-        this.storyService = storyService;
-        this.eventPublisher = eventPublisher;
-        this.projectBacklogService = projectBacklogService;
-        this.communicationService = communicationService;
-        this.sprintBacklogService = sprintBacklogService;
+
+        toDoItemProcessorFacade = new ToDoItemProcessorFacade(storyRepository, storyService, eventPublisher, projectBacklogService, communicationService, sprintBacklogService);
     }
 
     public void processFor(ToDoItem toDoItem) {
@@ -68,23 +60,23 @@ public class ToDoItemProcessor {
         if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
             if (story.getTasks().isEmpty()) {
-                projectBacklogService.moveToReadyForDevelopment(story, story.getProject());
+                toDoItemProcessorFacade.moveToReadyForDevelopment(story, story.getProject());
             } else {
                 if (!story.isAssigned()) {
-                    communicationService.notifyTeamsAbout(story, story.getProject());
+                    toDoItemProcessorFacade.notifyTeamsAbout(story, story.getProject());
                 }
             }
         } else {
             if (toDoItem instanceof Task) {
                 Task task = (Task) toDoItem;
-                sprintBacklogService.moveToReadyForDevelopment(task, task.getCurrentSprint());
+                toDoItemProcessorFacade.moveToReadyForDevelopment(task, task.getCurrentSprint());
             } else {
                 if (toDoItem instanceof Epic) {
                     Epic epic = (Epic) toDoItem;
-                    projectBacklogService.putOnTop(epic);
+                    toDoItemProcessorFacade.putOnTop(epic);
                     EpicReadyToPrioritize event = EpicReadyToPrioritize.anEpicReadyToPrioritize(epic);
-                    eventPublisher.publish(event);
-                    communicationService.notify(toDoItem, toDoItem.getProject().getProductOwner());
+                    toDoItemProcessorFacade.publish(event);
+                    toDoItemProcessorFacade.notify(toDoItem, toDoItem.getProject().getProductOwner());
                 } else {
                     throw new UnsupportedToDoItemType();
                 }
@@ -95,24 +87,24 @@ public class ToDoItemProcessor {
     private void processInProgress(ToDoItem toDoItem) {
         if (toDoItem instanceof Task) {
             Task task = (Task) toDoItem;
-            Story story = storyRepository.findById(task.getStoryId());
-            storyService.updateProgressOf(story, task);
+            Story story = toDoItemProcessorFacade.findById(task.getStoryId());
+            toDoItemProcessorFacade.updateProgressOf(story, task);
         }
     }
 
     private void processDone(ToDoItem toDoItem) {
         if (toDoItem instanceof Task) {
             Task task = (Task) toDoItem;
-            Story story = storyRepository.findById(task.getStoryId());
-            storyService.updateProgressOf(story, task);
+            Story story = toDoItemProcessorFacade.findById(task.getStoryId());
+            toDoItemProcessorFacade.updateProgressOf(story, task);
             if (DONE.equals(story.getStatus())) {
                 StoryDoneEvent event = StoryDoneEvent.aStoryDoneEventFor(story);
-                eventPublisher.publish(event);
+                toDoItemProcessorFacade.publish(event);
             }
         } else if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
             StoryDoneEvent event = StoryDoneEvent.aStoryDoneEventFor(story);
-            eventPublisher.publish(event);
+            toDoItemProcessorFacade.publish(event);
         }
     }
 
@@ -120,21 +112,21 @@ public class ToDoItemProcessor {
         if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
             StoryApprovedEvent event = StoryApprovedEvent.aStoryApprovedEventFor(story);
-            eventPublisher.publish(event);
+            toDoItemProcessorFacade.publish(event);
         } else if (toDoItem instanceof Task) {
             Task task = (Task) toDoItem;
 
             if (task.isSubtask()) {
                 TaskApprovedEvent event = TaskApprovedEvent.aTaskApprovedEvent(task);
-                eventPublisher.publish(event);
+                toDoItemProcessorFacade.publish(event);
             } else {
-                storyService.attachPartialApprovalFor(task.getStoryId(), task.getId());
+                toDoItemProcessorFacade.attachPartialApprovalFor(task.getStoryId(), task.getId());
             }
         }
     }
 
     private void processReleased(ToDoItem toDoItem) {
         ToDoItemReleasedEvent event = ToDoItemReleasedEvent.aToDoItemReleasedEvent(toDoItem);
-        eventPublisher.publish(event);
+        toDoItemProcessorFacade.publish(event);
     }
 }
