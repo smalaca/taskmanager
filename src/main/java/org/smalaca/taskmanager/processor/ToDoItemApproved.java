@@ -6,14 +6,14 @@ import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.event.StoryApprovedEvent;
 import org.smalaca.taskmanager.event.TaskApprovedEvent;
 
-class ToDoItemApproved {
+class ToDoItemApproved implements ToDoItemState {
     private final ToDoItemProcessorFacade toDoItemProcessorFacade;
 
     ToDoItemApproved(ToDoItemProcessorFacade toDoItemProcessorFacade) {
         this.toDoItemProcessorFacade = toDoItemProcessorFacade;
     }
 
-    void process(ToDoItem toDoItem) {
+    public void process(ToDoItem toDoItem) {
         if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
             StoryApprovedEvent event = StoryApprovedEvent.aStoryApprovedEventFor(story);

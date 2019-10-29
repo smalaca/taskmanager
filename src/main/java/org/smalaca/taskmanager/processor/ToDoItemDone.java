@@ -7,14 +7,14 @@ import org.smalaca.taskmanager.event.StoryDoneEvent;
 
 import static org.smalaca.taskmanager.domain.Status.DONE;
 
-class ToDoItemDone {
+class ToDoItemDone implements ToDoItemState {
     private final ToDoItemProcessorFacade toDoItemProcessorFacade;
 
     ToDoItemDone(ToDoItemProcessorFacade toDoItemProcessorFacade) {
         this.toDoItemProcessorFacade = toDoItemProcessorFacade;
     }
 
-    void process(ToDoItem toDoItem) {
+    public void process(ToDoItem toDoItem) {
         if (toDoItem instanceof Task) {
             Task task = (Task) toDoItem;
             Story story = toDoItemProcessorFacade.findById(task.getStoryId());

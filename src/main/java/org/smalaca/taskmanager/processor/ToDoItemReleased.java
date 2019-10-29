@@ -3,14 +3,14 @@ package org.smalaca.taskmanager.processor;
 import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.event.ToDoItemReleasedEvent;
 
-class ToDoItemReleased {
+class ToDoItemReleased implements ToDoItemState {
     private final ToDoItemProcessorFacade toDoItemProcessorFacade;
 
     ToDoItemReleased(ToDoItemProcessorFacade toDoItemProcessorFacade) {
         this.toDoItemProcessorFacade = toDoItemProcessorFacade;
     }
 
-    void process(ToDoItem toDoItem) {
+    public void process(ToDoItem toDoItem) {
         ToDoItemReleasedEvent event = ToDoItemReleasedEvent.aToDoItemReleasedEvent(toDoItem);
         toDoItemProcessorFacade.publish(event);
     }

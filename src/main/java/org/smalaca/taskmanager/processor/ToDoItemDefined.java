@@ -7,7 +7,7 @@ import org.smalaca.taskmanager.domain.ToDoItem;
 import org.smalaca.taskmanager.event.EpicReadyToPrioritize;
 import org.smalaca.taskmanager.exception.UnsupportedToDoItemType;
 
-class ToDoItemDefined {
+class ToDoItemDefined implements ToDoItemState{
     private final ToDoItemProcessorFacade toDoItemProcessorFacade;
 
     ToDoItemDefined(ToDoItemProcessorFacade toDoItemProcessorFacade) {
@@ -15,7 +15,7 @@ class ToDoItemDefined {
         this.toDoItemProcessorFacade = toDoItemProcessorFacade;
     }
 
-    void process(ToDoItem toDoItem) {
+    public void process(ToDoItem toDoItem) {
         if (toDoItem instanceof Story) {
             Story story = (Story) toDoItem;
             if (story.getTasks().isEmpty()) {
