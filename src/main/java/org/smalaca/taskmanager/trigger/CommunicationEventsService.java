@@ -1,6 +1,7 @@
 package org.smalaca.taskmanager.trigger;
 
 import org.smalaca.taskmanager.domain.*;
+import org.smalaca.taskmanager.repository.ToDoItemRepository;
 import org.springframework.stereotype.Service;
 
 @Service
