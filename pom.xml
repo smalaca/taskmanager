@@ -22,16 +22,15 @@
     <jbehave.spring.version>3.9.5</jbehave.spring.version>
     <junit.version>4.11</junit.version>
     <mockito.version>1.10.19</mockito.version>
-    <failsafe.and.surefire.version>2.16</failsafe.and.surefire.version>
+    <failsafe.and.surefire.version>3.0.0-M5</failsafe.and.surefire.version>
     <checkstyle.plugin.version>2.15</checkstyle.plugin.version>
-    <pmd.plugin.version>3.4</pmd.plugin.version>
-    <findbugs.plugin.version>3.0.1</findbugs.plugin.version>
-    <jacoco.version>0.7.4.201502262128</jacoco.version>
     <javancss.version>2.1</javancss.version>
     <classycle.version>0.4</classycle.version>
     <httpmime.version>4.2.3</httpmime.version>
     <assertj.core.version>3.1.0</assertj.core.version>
     <guava.version>27.0.1-jre</guava.version>
+    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
   </properties>
 
   <parent>
@@ -95,6 +94,12 @@
       <version>${httpmime.version}</version>
 	  <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-failsafe-plugin</artifactId>
+      <version>${failsafe.and.surefire.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -131,7 +136,7 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
+            <version>${jacoco-maven-plugin.version}</version>
             <configuration>
               <excludes>
                 <exclude>org/smalaca/taskmanager/Application.*</exclude>
@@ -212,25 +217,6 @@
           </plugin>
 
           <plugin>
-            <groupId>org.pitest</groupId>
-            <artifactId>classycle-maven-plugin</artifactId>
-            <version>${classycle.version}</version>
-            <configuration>
-              <dependencyDefinitionFile>${project.config.directory}/static-analysis/classycle-package-dependency.txt</dependencyDefinitionFile>
-              <outputFile>classycle-package-dependency-result.txt</outputFile>
-            </configuration>
-            <executions>
-              <execution>
-                <id>verify</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>${failsafe.and.surefire.version}</version>
@@ -272,7 +258,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
-            <version>${pmd.plugin.version}</version>
+            <version>${maven-pmd-plugin.version}</version>
             <executions>
               <execution>
                 <phase>validate</phase>
@@ -284,28 +270,6 @@
             <configuration>
               <failOnViolation>false</failOnViolation>
             </configuration>
-          </plugin>
-
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>${findbugs.plugin.version}</version>
-            <configuration>
-              <effort>Max</effort>
-              <threshold>Low</threshold>
-              <xmlOutput>true</xmlOutput>
-              <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-              <failOnError>false</failOnError>
-            </configuration>
-            <executions>
-              <execution>
-                <id>analyze-compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
 
           <plugin>
@@ -438,18 +402,4 @@
       </build>
     </profile>
   </profiles>
-
-  <repositories>
-    <repository>
-      <id>spring-releases</id>
-      <url>https://repo.spring.io/libs-release</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>spring-releases</id>
-      <url>https://repo.spring.io/libs-release</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>
