@@ -11,13 +11,14 @@
   <url>letstalkaboutjava.blogspot.com</url>
 
   <properties>
-    <java.version>1.9</java.version>
+    <java.version>17</java.version>
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.directory>target</project.build.directory>
     <project.config.directory>config</project.config.directory>
 
     <!-- DEPENDENCIES' VERSIONS -->
-    <maven.compiler.version>3.3</maven.compiler.version>
+    <maven.compiler.version>3.11.0</maven.compiler.version>
     <jbehave.version>3.8</jbehave.version>
     <jbehave.spring.version>3.9.5</jbehave.spring.version>
     <junit.version>4.13.2</junit.version>
