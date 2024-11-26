@@ -20,17 +20,18 @@
     <maven.compiler.version>3.3</maven.compiler.version>
     <jbehave.version>3.8</jbehave.version>
     <jbehave.spring.version>3.9.5</jbehave.spring.version>
-    <junit.version>4.11</junit.version>
-    <mockito.version>1.10.19</mockito.version>
+    <junit.version>4.13.2</junit.version>
+    <mockito.version>3.11.2</mockito.version>
     <failsafe.and.surefire.version>3.0.0-M5</failsafe.and.surefire.version>
-    <checkstyle.plugin.version>2.15</checkstyle.plugin.version>
+    <checkstyle.plugin.version>3.2.1</checkstyle.plugin.version>
     <javancss.version>2.1</javancss.version>
     <classycle.version>0.4</classycle.version>
-    <httpmime.version>4.2.3</httpmime.version>
+    <httpclient.version>4.5.14</httpclient.version>
+    <httpmime.version>4.5.13</httpmime.version>
     <assertj.core.version>3.1.0</assertj.core.version>
-    <guava.version>27.0.1-jre</guava.version>
-    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
-    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+    <guava.version>33.2.0-jre</guava.version>
+    <maven-pmd-plugin.version>3.20.0</maven-pmd-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
   </properties>
 
   <parent>
@@ -313,7 +314,7 @@
           <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
-            <version>1.1.10</version>
+            <version>1.5.1</version>
             <configuration>
               <targetClasses>
                 <param>org.smalaca.taskmanager.*</param>
