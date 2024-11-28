@@ -1,5 +1,8 @@
 Playground for Refactoring, Redesign and Legacy Code workshops/trainings.
 
+
+https://sages.link/071099
+
 1. `mvn clean install`
 2. `mvn sonar:sonar 
    -Dsonar.host.url=http://localhost:9000
